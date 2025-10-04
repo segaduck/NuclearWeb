@@ -151,13 +151,13 @@
 - [x] T073 Entity configuration classes for relationships and indexes in backend/src/NuclearWeb.Infrastructure/Data/Configurations/
 
 ## Phase 3.4: Backend Application Layer (Services)
-- [ ] T074 [P] IAuthService interface in backend/src/NuclearWeb.Core/Interfaces/IAuthService.cs
-- [ ] T075 [P] IReservationService interface in backend/src/NuclearWeb.Core/Interfaces/IReservationService.cs
-- [ ] T076 [P] IRoomService interface in backend/src/NuclearWeb.Core/Interfaces/IRoomService.cs
-- [ ] T077 [P] IArticleService interface in backend/src/NuclearWeb.Core/Interfaces/IArticleService.cs
-- [ ] T078 [P] IMenuService interface in backend/src/NuclearWeb.Core/Interfaces/IMenuService.cs
-- [ ] T079 [P] IUserService interface in backend/src/NuclearWeb.Core/Interfaces/IUserService.cs
-- [ ] T080 [P] IFileService interface in backend/src/NuclearWeb.Core/Interfaces/IFileService.cs
+- [x] T074 [P] IAuthService interface in backend/src/NuclearWeb.Core/Interfaces/IAuthService.cs
+- [x] T075 [P] IReservationService interface in backend/src/NuclearWeb.Core/Interfaces/IReservationService.cs
+- [x] T076 [P] IRoomService interface in backend/src/NuclearWeb.Core/Interfaces/IRoomService.cs
+- [x] T077 [P] IArticleService interface in backend/src/NuclearWeb.Core/Interfaces/IArticleService.cs
+- [x] T078 [P] IMenuService interface in backend/src/NuclearWeb.Core/Interfaces/IMenuService.cs
+- [x] T079 [P] IUserService interface in backend/src/NuclearWeb.Core/Interfaces/IUserService.cs
+- [x] T080 [P] IFileService interface in backend/src/NuclearWeb.Core/Interfaces/IFileService.cs
 - [ ] T081 AuthService implementation with JWT generation and password hashing in backend/src/NuclearWeb.Application/Services/AuthService.cs
 - [ ] T082 ReservationService with conflict detection logic in backend/src/NuclearWeb.Application/Services/ReservationService.cs
 - [ ] T083 RoomService with CRUD operations in backend/src/NuclearWeb.Application/Services/RoomService.cs
