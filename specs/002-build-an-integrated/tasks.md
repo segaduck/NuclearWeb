@@ -140,15 +140,15 @@
 - [x] T064 [P] Contract test GET /api/v1/files/categories in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
 
 ## Phase 3.3: Backend Core Models & DbContext (ONLY after tests are failing)
-- [ ] T065 [P] User entity model in backend/src/NuclearWeb.Core/Entities/User.cs
-- [ ] T066 [P] MeetingRoom entity model in backend/src/NuclearWeb.Core/Entities/MeetingRoom.cs
-- [ ] T067 [P] Reservation entity model in backend/src/NuclearWeb.Core/Entities/Reservation.cs
-- [ ] T068 [P] ContentArticle entity model in backend/src/NuclearWeb.Core/Entities/ContentArticle.cs
-- [ ] T069 [P] MenuItem entity model in backend/src/NuclearWeb.Core/Entities/MenuItem.cs
-- [ ] T070 [P] UploadedFile entity model in backend/src/NuclearWeb.Core/Entities/UploadedFile.cs
-- [ ] T071 [P] RefreshToken entity model in backend/src/NuclearWeb.Core/Entities/RefreshToken.cs
-- [ ] T072 ApplicationDbContext with all entity configurations in backend/src/NuclearWeb.Infrastructure/Data/ApplicationDbContext.cs
-- [ ] T073 Entity configuration classes for relationships and indexes in backend/src/NuclearWeb.Infrastructure/Data/Configurations/
+- [x] T065 [P] User entity model in backend/src/NuclearWeb.Core/Entities/User.cs
+- [x] T066 [P] MeetingRoom entity model in backend/src/NuclearWeb.Core/Entities/MeetingRoom.cs
+- [x] T067 [P] Reservation entity model in backend/src/NuclearWeb.Core/Entities/Reservation.cs
+- [x] T068 [P] ContentArticle entity model in backend/src/NuclearWeb.Core/Entities/ContentArticle.cs
+- [x] T069 [P] MenuItem entity model in backend/src/NuclearWeb.Core/Entities/MenuItem.cs
+- [x] T070 [P] UploadedFile entity model in backend/src/NuclearWeb.Core/Entities/UploadedFile.cs
+- [x] T071 [P] RefreshToken entity model in backend/src/NuclearWeb.Core/Entities/RefreshToken.cs
+- [x] T072 ApplicationDbContext with all entity configurations in backend/src/NuclearWeb.Infrastructure/Data/ApplicationDbContext.cs
+- [x] T073 Entity configuration classes for relationships and indexes in backend/src/NuclearWeb.Infrastructure/Data/Configurations/
 
 ## Phase 3.4: Backend Application Layer (Services)
 - [ ] T074 [P] IAuthService interface in backend/src/NuclearWeb.Core/Interfaces/IAuthService.cs
