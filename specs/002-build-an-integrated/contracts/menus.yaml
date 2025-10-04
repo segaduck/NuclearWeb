@@ -1,0 +1,340 @@
+openapi: 3.0.3
+info:
+  title: NuclearWeb Menu Management API
+  description: CMS menu structure management endpoints
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Development server
+paths:
+  /menus:
+    get:
+      summary: Get menu structure
+      description: Get complete menu hierarchy (public for visible items, all for admin)
+      tags:
+        - Menus
+      parameters:
+        - name: includeHidden
+          in: query
+          description: Include hidden menu items (admin only)
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Menu structure retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MenuItem'
+
+    post:
+      summary: Create menu item
+      description: Create a new menu item (admin only)
+      tags:
+        - Menus
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMenuItemRequest'
+      responses:
+        '201':
+          description: Menu item created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /menus/{id}:
+    get:
+      summary: Get menu item details
+      description: Get a specific menu item
+      tags:
+        - Menus
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Menu item retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update menu item
+      description: Update menu item details (admin only)
+      tags:
+        - Menus
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMenuItemRequest'
+      responses:
+        '200':
+          description: Menu item updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      summary: Delete menu item
+      description: Delete a menu item (admin only, cascades to children)
+      tags:
+        - Menus
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Menu item deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /menus/reorder:
+    put:
+      summary: Reorder menu items
+      description: Update display order of menu items (admin only)
+      tags:
+        - Menus
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      displayOrder:
+                        type: integer
+      responses:
+        '200':
+          description: Menu items reordered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Menu items reordered successfully"
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    MenuItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "About Us"
+        parentId:
+          type: integer
+          nullable: true
+          example: null
+        displayOrder:
+          type: integer
+          example: 0
+        linkType:
+          type: string
+          enum: [Article, ExternalUrl]
+          example: "Article"
+        articleId:
+          type: integer
+          nullable: true
+          example: 42
+        articleTitle:
+          type: string
+          nullable: true
+          example: "About Our Organization"
+        externalUrl:
+          type: string
+          nullable: true
+          example: null
+        isVisible:
+          type: boolean
+          example: true
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuItem'
+          description: Child menu items (sub-menu)
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateMenuItemRequest:
+      type: object
+      required:
+        - name
+        - linkType
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: "About Us"
+        parentId:
+          type: integer
+          nullable: true
+          description: Parent menu item ID (null for top-level)
+        displayOrder:
+          type: integer
+          default: 0
+        linkType:
+          type: string
+          enum: [Article, ExternalUrl]
+        articleId:
+          type: integer
+          nullable: true
+          description: Required if linkType = Article
+        externalUrl:
+          type: string
+          maxLength: 500
+          nullable: true
+          description: Required if linkType = ExternalUrl
+        isVisible:
+          type: boolean
+          default: true
+
+    UpdateMenuItemRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        parentId:
+          type: integer
+          nullable: true
+        displayOrder:
+          type: integer
+        linkType:
+          type: string
+          enum: [Article, ExternalUrl]
+        articleId:
+          type: integer
+          nullable: true
+        externalUrl:
+          type: string
+          maxLength: 500
+          nullable: true
+        isVisible:
+          type: boolean
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              nullable: true
+
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden - admin access required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

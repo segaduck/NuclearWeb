@@ -1,0 +1,439 @@
+openapi: 3.0.3
+info:
+  title: NuclearWeb Reservations API
+  description: Meeting room reservation management endpoints
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Development server
+paths:
+  /reservations:
+    get:
+      summary: List reservations
+      description: Get paginated list of reservations with optional filtering
+      tags:
+        - Reservations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: roomId
+          in: query
+          description: Filter by meeting room ID
+          schema:
+            type: integer
+        - name: userId
+          in: query
+          description: Filter by user ID (creator)
+          schema:
+            type: integer
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+            enum: [Confirmed, Cancelled]
+        - name: startDate
+          in: query
+          description: Filter reservations starting from this date
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          description: Filter reservations ending before this date
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Reservations retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reservation'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create reservation
+      description: Create a new meeting room reservation
+      tags:
+        - Reservations
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReservationRequest'
+      responses:
+        '201':
+          description: Reservation created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '409':
+          description: Reservation conflict (room already booked)
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "RESERVATION_CONFLICT"
+                  message: "Room already booked for this time period"
+                  details:
+                    conflictingReservationId: 123
+                    roomId: 5
+                    timeSlot: "2025-10-03T10:00:00Z - 2025-10-03T12:00:00Z"
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /reservations/{id}:
+    get:
+      summary: Get reservation details
+      description: Retrieve a specific reservation by ID
+      tags:
+        - Reservations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Reservation retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update reservation
+      description: Update an existing reservation (own reservations only, or admin)
+      tags:
+        - Reservations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateReservationRequest'
+      responses:
+        '200':
+          description: Reservation updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden - cannot edit other users' reservations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error:
+                  code: "FORBIDDEN"
+                  message: "You can only edit your own reservations"
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      summary: Cancel reservation
+      description: Cancel a reservation (marks as Cancelled)
+      tags:
+        - Reservations
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Reservation cancelled successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /reservations/check-availability:
+    post:
+      summary: Check room availability
+      description: Check if a room is available for a specific time period
+      tags:
+        - Reservations
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - roomId
+                - startTime
+                - endTime
+              properties:
+                roomId:
+                  type: integer
+                startTime:
+                  type: string
+                  format: date-time
+                endTime:
+                  type: string
+                  format: date-time
+                excludeReservationId:
+                  type: integer
+                  description: Exclude this reservation from conflict check (for updates)
+      responses:
+        '200':
+          description: Availability check result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  available:
+                    type: boolean
+                  conflicts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Reservation'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Reservation:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        meetingRoomId:
+          type: integer
+          example: 5
+        meetingRoomName:
+          type: string
+          example: "Conference Room A"
+        userId:
+          type: integer
+          example: 10
+        userDisplayName:
+          type: string
+          example: "John Doe"
+        startTime:
+          type: string
+          format: date-time
+          example: "2025-10-03T10:00:00Z"
+        endTime:
+          type: string
+          format: date-time
+          example: "2025-10-03T12:00:00Z"
+        purpose:
+          type: string
+          nullable: true
+          example: "Team standup meeting"
+        attendeeCount:
+          type: integer
+          nullable: true
+          example: 8
+        status:
+          type: string
+          enum: [Confirmed, Cancelled]
+          example: "Confirmed"
+        createdAt:
+          type: string
+          format: date-time
+          example: "2025-10-01T09:00:00Z"
+        updatedAt:
+          type: string
+          format: date-time
+          example: "2025-10-01T09:00:00Z"
+        createdBy:
+          type: integer
+          example: 10
+        modifiedBy:
+          type: integer
+          nullable: true
+          example: null
+
+    CreateReservationRequest:
+      type: object
+      required:
+        - meetingRoomId
+        - startTime
+        - endTime
+      properties:
+        meetingRoomId:
+          type: integer
+          example: 5
+        startTime:
+          type: string
+          format: date-time
+          example: "2025-10-03T10:00:00Z"
+        endTime:
+          type: string
+          format: date-time
+          example: "2025-10-03T12:00:00Z"
+        purpose:
+          type: string
+          maxLength: 500
+          example: "Team standup meeting"
+        attendeeCount:
+          type: integer
+          minimum: 1
+          example: 8
+
+    UpdateReservationRequest:
+      type: object
+      properties:
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        purpose:
+          type: string
+          maxLength: 500
+        attendeeCount:
+          type: integer
+          minimum: 1
+
+    Pagination:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+          example: 1
+        pageSize:
+          type: integer
+          example: 20
+        totalItems:
+          type: integer
+          example: 150
+        totalPages:
+          type: integer
+          example: 8
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              nullable: true
+
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Conflict:
+      description: Resource conflict
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

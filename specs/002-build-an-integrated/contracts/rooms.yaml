@@ -1,0 +1,345 @@
+openapi: 3.0.3
+info:
+  title: NuclearWeb Meeting Rooms API
+  description: Meeting room management endpoints
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Development server
+paths:
+  /rooms:
+    get:
+      summary: List meeting rooms
+      description: Get all meeting rooms (active only for regular users, all for admins)
+      tags:
+        - Meeting Rooms
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: includeInactive
+          in: query
+          description: Include inactive rooms (admin only)
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Rooms retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MeetingRoom'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create meeting room
+      description: Create a new meeting room (admin only)
+      tags:
+        - Meeting Rooms
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateRoomRequest'
+      responses:
+        '201':
+          description: Room created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingRoom'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /rooms/{id}:
+    get:
+      summary: Get room details
+      description: Retrieve a specific meeting room by ID
+      tags:
+        - Meeting Rooms
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Room retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingRoom'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update meeting room
+      description: Update room details (admin only)
+      tags:
+        - Meeting Rooms
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateRoomRequest'
+      responses:
+        '200':
+          description: Room updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MeetingRoom'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      summary: Deactivate meeting room
+      description: Soft delete a room by marking as inactive (admin only)
+      tags:
+        - Meeting Rooms
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Room deactivated successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /rooms/{id}/schedule:
+    get:
+      summary: Get room schedule
+      description: Get all reservations for a specific room within a date range
+      tags:
+        - Meeting Rooms
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: startDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: endDate
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Room schedule retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  roomId:
+                    type: integer
+                  roomName:
+                    type: string
+                  reservations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ReservationSummary'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    MeetingRoom:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "Conference Room A"
+        capacity:
+          type: integer
+          example: 12
+        location:
+          type: string
+          nullable: true
+          example: "Building 1, Floor 3"
+        amenities:
+          type: array
+          items:
+            type: string
+          example: ["Projector", "Whiteboard", "Video Conference"]
+        isActive:
+          type: boolean
+          example: true
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+
+    CreateRoomRequest:
+      type: object
+      required:
+        - name
+        - capacity
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          example: "Conference Room A"
+        capacity:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          example: 12
+        location:
+          type: string
+          maxLength: 255
+          example: "Building 1, Floor 3"
+        amenities:
+          type: array
+          items:
+            type: string
+          example: ["Projector", "Whiteboard"]
+
+    UpdateRoomRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+        capacity:
+          type: integer
+          minimum: 1
+          maximum: 1000
+        location:
+          type: string
+          maxLength: 255
+        amenities:
+          type: array
+          items:
+            type: string
+        isActive:
+          type: boolean
+
+    ReservationSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        startTime:
+          type: string
+          format: date-time
+        endTime:
+          type: string
+          format: date-time
+        purpose:
+          type: string
+          nullable: true
+        userDisplayName:
+          type: string
+        status:
+          type: string
+          enum: [Confirmed, Cancelled]
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              nullable: true
+
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden - admin access required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

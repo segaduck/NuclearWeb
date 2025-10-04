@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Prototype A (Minimalist/Clean)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: background-color 200ms, color 200ms;
+        }
+        body.light { background-color: #FFFFFF; color: #1F2937; }
+        body.dark { background-color: #111827; color: #F9FAFB; }
+
+        .app-layout { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 280px;
+            border-right: 1px solid;
+            transition: border-color 200ms, background-color 200ms;
+            display: flex;
+            flex-direction: column;
+        }
+        .light .sidebar { background-color: #F8F9FA; border-color: #E5E7EB; }
+        .dark .sidebar { background-color: #1F2937; border-color: #374151; }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .light .sidebar-header { border-color: #E5E7EB; }
+        .dark .sidebar-header { border-color: #374151; }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 16px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 12px;
+            margin-bottom: 4px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: background-color 150ms, color 200ms;
+            cursor: pointer;
+        }
+        .light .nav-item { color: #1F2937; }
+        .dark .nav-item { color: #F9FAFB; }
+        .light .nav-item:hover,
+        .light .nav-item.active { background-color: #E5E7EB; }
+        .dark .nav-item:hover,
+        .dark .nav-item.active { background-color: #374151; }
+
+        .nav-icon {
+            margin-right: 12px;
+            font-size: 1.25rem;
+        }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid;
+            transition: border-color 200ms, background-color 200ms;
+        }
+        .light .header { background-color: #FFFFFF; border-color: #E5E7EB; }
+        .dark .header { background-color: #111827; border-color: #374151; }
+
+        .theme-toggle {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+        .light .theme-toggle { border-color: #E5E7EB; color: #1F2937; }
+        .dark .theme-toggle { border-color: #374151; color: #F9FAFB; }
+
+        .dashboard-container {
+            flex: 1;
+            padding: 24px;
+            overflow: auto;
+        }
+
+        .dashboard-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            padding: 24px;
+            border: 1px solid;
+            border-radius: 8px;
+            transition: border-color 200ms, background-color 200ms;
+        }
+        .light .stat-card {
+            background-color: #F8F9FA;
+            border-color: #E5E7EB;
+        }
+        .dark .stat-card {
+            background-color: #1F2937;
+            border-color: #374151;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            margin-bottom: 8px;
+            transition: color 200ms;
+        }
+        .light .stat-label { color: #6B7280; }
+        .dark .stat-label { color: #9CA3AF; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .recent-section {
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .list-item {
+            padding: 16px;
+            border: 1px solid;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            transition: border-color 200ms, background-color 200ms;
+        }
+        .light .list-item {
+            background-color: #F8F9FA;
+            border-color: #E5E7EB;
+        }
+        .dark .list-item {
+            background-color: #1F2937;
+            border-color: #374151;
+        }
+
+        .list-item-title {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .list-item-meta {
+            font-size: 0.875rem;
+            transition: color 200ms;
+        }
+        .light .list-item-meta { color: #6B7280; }
+        .dark .list-item-meta { color: #9CA3AF; }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-draft {
+            background-color: rgba(107, 114, 128, 0.1);
+        }
+        .light .badge-draft { color: #6B7280; }
+        .dark .badge-draft { color: #9CA3AF; }
+
+        .badge-pending {
+            background-color: rgba(245, 158, 11, 0.1);
+            color: #F59E0B;
+        }
+
+        .badge-published {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10B981;
+        }
+    </style>
+</head>
+<body class="light">
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">NuclearWeb</div>
+            <nav class="sidebar-nav">
+                <a class="nav-item active" href="#">
+                    <span class="nav-icon">📊</span>
+                    <span class="nav-text">Dashboard</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <span class="nav-icon">📅</span>
+                    <span class="nav-text">Reservations</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <span class="nav-icon">📝</span>
+                    <span class="nav-text">Articles</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <span class="nav-icon">📁</span>
+                    <span class="nav-text">Files</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <span class="nav-icon">👥</span>
+                    <span class="nav-text">Users</span>
+                </a>
+                <a class="nav-item" href="#">
+                    <span class="nav-icon">⚙️</span>
+                    <span class="nav-text">Settings</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <span>Admin Dashboard</span>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span class="light-icon">🌙</span>
+                    <span class="dark-icon" style="display: none;">☀️</span>
+                </button>
+            </header>
+
+            <div class="dashboard-container">
+                <h1 class="dashboard-title">Dashboard</h1>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Reservations</div>
+                        <div class="stat-value">124</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Published Articles</div>
+                        <div class="stat-value">47</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Active Users</div>
+                        <div class="stat-value">32</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pending Approvals</div>
+                        <div class="stat-value">5</div>
+                    </div>
+                </div>
+
+                <div class="recent-section">
+                    <h2 class="section-header">Recent Reservations</h2>
+                    <div class="list-item">
+                        <div class="list-item-title">Conference Room A</div>
+                        <div class="list-item-meta">Oct 5, 2025 • 10:00 AM - 12:00 PM • John Doe</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-title">Meeting Room B</div>
+                        <div class="list-item-meta">Oct 4, 2025 • 2:00 PM - 4:00 PM • Jane Smith</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-title">Conference Room A</div>
+                        <div class="list-item-meta">Oct 3, 2025 • 9:00 AM - 11:00 AM • Mike Johnson</div>
+                    </div>
+                </div>
+
+                <div class="recent-section">
+                    <h2 class="section-header">Recent Articles</h2>
+                    <div class="list-item">
+                        <div class="list-item-title">
+                            Radiation Safety Procedures
+                            <span class="badge badge-published">Published</span>
+                        </div>
+                        <div class="list-item-meta">Updated 2 hours ago by Admin</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-title">
+                            Emergency Response Protocol
+                            <span class="badge badge-pending">Pending Approval</span>
+                        </div>
+                        <div class="list-item-meta">Updated 1 day ago by John Doe</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-item-title">
+                            Equipment Maintenance Guide
+                            <span class="badge badge-draft">Draft</span>
+                        </div>
+                        <div class="list-item-meta">Updated 3 days ago by Jane Smith</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const lightIcon = document.querySelector('.light-icon');
+            const darkIcon = document.querySelector('.dark-icon');
+
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                lightIcon.style.display = 'none';
+                darkIcon.style.display = 'inline';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                lightIcon.style.display = 'inline';
+                darkIcon.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

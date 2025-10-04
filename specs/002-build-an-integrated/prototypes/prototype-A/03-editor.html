@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article Editor - Prototype A (Minimalist/Clean)</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: background-color 200ms, color 200ms;
+        }
+        body.light { background-color: #FFFFFF; color: #1F2937; }
+        body.dark { background-color: #111827; color: #F9FAFB; }
+
+        .app-layout { display: flex; min-height: 100vh; }
+
+        .sidebar {
+            width: 280px;
+            border-right: 1px solid;
+            transition: border-color 200ms, background-color 200ms;
+        }
+        .light .sidebar { background-color: #F8F9FA; border-color: #E5E7EB; }
+        .dark .sidebar { background-color: #1F2937; border-color: #374151; }
+
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .light .sidebar-header { border-color: #E5E7EB; }
+        .dark .sidebar-header { border-color: #374151; }
+
+        .main-content { flex: 1; display: flex; flex-direction: column; }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 24px;
+            border-bottom: 1px solid;
+            transition: border-color 200ms, background-color 200ms;
+        }
+        .light .header { background-color: #FFFFFF; border-color: #E5E7EB; }
+        .dark .header { background-color: #111827; border-color: #374151; }
+
+        .theme-toggle {
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+        .light .theme-toggle { border-color: #E5E7EB; color: #1F2937; }
+        .dark .theme-toggle { border-color: #374151; color: #F9FAFB; }
+
+        .editor-container {
+            flex: 1;
+            padding: 24px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .editor-header {
+            margin-bottom: 24px;
+        }
+
+        .editor-header input {
+            width: 100%;
+            font-size: 2rem;
+            font-weight: 600;
+            border: none;
+            border-bottom: 1px solid transparent;
+            padding: 8px 0;
+            transition: border-color 200ms, background-color 200ms, color 200ms;
+        }
+        .light .editor-header input {
+            background-color: #FFFFFF;
+            color: #1F2937;
+        }
+        .dark .editor-header input {
+            background-color: #111827;
+            color: #F9FAFB;
+        }
+        .editor-header input:focus {
+            outline: none;
+            border-bottom-color: #3B82F6;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            border: 1px solid;
+            border-radius: 6px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            transition: border-color 200ms, background-color 200ms;
+        }
+        .light .toolbar { background-color: #F8F9FA; border-color: #E5E7EB; }
+        .dark .toolbar { background-color: #1F2937; border-color: #374151; }
+
+        .toolbar-btn {
+            padding: 6px 12px;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+        .light .toolbar-btn { color: #1F2937; }
+        .dark .toolbar-btn { color: #F9FAFB; }
+        .light .toolbar-btn:hover { background-color: #E5E7EB; }
+        .dark .toolbar-btn:hover { background-color: #374151; }
+
+        .editor-content {
+            min-height: 400px;
+            padding: 16px;
+            border: 1px solid;
+            border-radius: 6px;
+            transition: border-color 200ms, background-color 200ms;
+        }
+        .light .editor-content {
+            background-color: #FFFFFF;
+            border-color: #E5E7EB;
+        }
+        .dark .editor-content {
+            background-color: #111827;
+            border-color: #374151;
+        }
+        .editor-content:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            justify-content: flex-end;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+        .btn-secondary {
+            background: transparent;
+        }
+        .light .btn-secondary { border-color: #E5E7EB; color: #1F2937; }
+        .dark .btn-secondary { border-color: #374151; color: #F9FAFB; }
+        .btn-primary {
+            background-color: #3B82F6;
+            border-color: #3B82F6;
+            color: #FFFFFF;
+        }
+        .btn-primary:hover {
+            background-color: #2563EB;
+        }
+    </style>
+</head>
+<body class="light">
+    <div class="app-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">NuclearWeb</div>
+        </aside>
+
+        <main class="main-content">
+            <header class="header">
+                <span>Article Editor</span>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span class="light-icon">🌙</span>
+                    <span class="dark-icon" style="display: none;">☀️</span>
+                </button>
+            </header>
+
+            <div class="editor-container">
+                <div class="editor-header">
+                    <input type="text" placeholder="Article Title" value="Radiation Safety Procedures">
+                </div>
+
+                <div class="toolbar">
+                    <button class="toolbar-btn"><strong>B</strong></button>
+                    <button class="toolbar-btn"><em>I</em></button>
+                    <button class="toolbar-btn"><u>U</u></button>
+                    <button class="toolbar-btn">H1</button>
+                    <button class="toolbar-btn">H2</button>
+                    <button class="toolbar-btn">H3</button>
+                    <button class="toolbar-btn">🔗 Link</button>
+                    <button class="toolbar-btn">📷 Image</button>
+                    <button class="toolbar-btn">🎬 Video</button>
+                    <button class="toolbar-btn">📺 YouTube</button>
+                    <button class="toolbar-btn">• List</button>
+                    <button class="toolbar-btn">1. Numbered</button>
+                </div>
+
+                <div class="editor-content" contenteditable="true">
+                    <h2>Introduction</h2>
+                    <p>This document outlines the essential safety procedures for handling radioactive materials in our facility...</p>
+                    <br>
+                    <h3>Key Safety Points</h3>
+                    <ul>
+                        <li>Always wear appropriate protective equipment</li>
+                        <li>Monitor radiation levels continuously</li>
+                        <li>Follow established protocols</li>
+                    </ul>
+                </div>
+
+                <div class="editor-actions">
+                    <button class="btn btn-secondary">Save Draft</button>
+                    <button class="btn btn-primary">Submit for Approval</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const lightIcon = document.querySelector('.light-icon');
+            const darkIcon = document.querySelector('.dark-icon');
+
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                lightIcon.style.display = 'none';
+                darkIcon.style.display = 'inline';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                lightIcon.style.display = 'inline';
+                darkIcon.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

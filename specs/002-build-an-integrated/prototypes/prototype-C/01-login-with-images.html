@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登入 - 核能網路平台</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Roboto', 'Microsoft JhengHei', '微軟正黑體', 'Segoe UI', Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+            transition: background-color 200ms, color 200ms;
+        }
+        body.light {
+            background-color: #F5F7FA;
+            color: #0F172A;
+        }
+        body.dark {
+            background-color: #0F172A;
+            color: #F8FAFC;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        .login-left {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 32px;
+        }
+
+        .login-right {
+            flex: 1;
+            background: linear-gradient(135deg, #2563EB 0%, #1E40AF 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            padding: 48px;
+            position: relative;
+        }
+
+        .brand-content {
+            max-width: 400px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .brand-content h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            margin-bottom: 16px;
+        }
+
+        .brand-content p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            margin-bottom: 32px;
+        }
+
+        .nuclear-image-container {
+            width: 100%;
+            max-width: 400px;
+            height: 400px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .nuclear-image {
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transition: opacity 500ms ease;
+        }
+
+        .nuclear-image.active {
+            opacity: 1;
+        }
+
+        .image-selector {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .image-option {
+            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            transition: all 200ms ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .image-option:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .image-option.active {
+            background: rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            padding: 32px;
+            border: 1px solid;
+            border-radius: 4px;
+            transition: border-color 200ms, background-color 200ms;
+        }
+
+        .light .login-card {
+            background-color: #FFFFFF;
+            border-color: #D1D5DB;
+        }
+
+        .dark .login-card {
+            background-color: #1E293B;
+            border-color: #334155;
+        }
+
+        .logo {
+            margin-bottom: 32px;
+        }
+
+        .logo h1 {
+            font-size: 1.75rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+            color: #2563EB;
+        }
+
+        .logo p {
+            font-size: 0.8125rem;
+            transition: color 200ms;
+        }
+
+        .light .logo p {
+            color: #64748B;
+        }
+
+        .dark .logo p {
+            color: #94A3B8;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.8125rem;
+            font-weight: 500;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid;
+            border-radius: 4px;
+            font-size: 15px;
+            font-family: 'Roboto', 'Microsoft JhengHei', '微軟正黑體', sans-serif;
+            transition: border-color 150ms, background-color 200ms, color 200ms;
+        }
+
+        .light input[type="text"],
+        .light input[type="password"] {
+            background-color: #FFFFFF;
+            border-color: #D1D5DB;
+            color: #0F172A;
+        }
+
+        .dark input[type="text"],
+        .dark input[type="password"] {
+            background-color: #0F172A;
+            border-color: #334155;
+            color: #F8FAFC;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #2563EB;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px 16px;
+            border: 1px solid;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 150ms ease;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .btn-primary {
+            background-color: #2563EB;
+            border-color: #2563EB;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #1E40AF;
+            border-color: #1E40AF;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 150ms ease;
+            z-index: 100;
+        }
+
+        .light .theme-toggle {
+            border-color: #D1D5DB;
+            background-color: #FFFFFF;
+            color: #0F172A;
+        }
+
+        .dark .theme-toggle {
+            border-color: #334155;
+            background-color: #1E293B;
+            color: #F8FAFC;
+        }
+
+        .light .theme-toggle:hover {
+            background-color: #F5F7FA;
+        }
+
+        .dark .theme-toggle:hover {
+            background-color: #334155;
+        }
+
+        @media (max-width: 768px) {
+            .login-right {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body class="light">
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span class="light-icon">🌙 深色模式</span>
+        <span class="dark-icon" style="display: none;">☀️ 淺色模式</span>
+    </button>
+
+    <div class="container">
+        <div class="login-left">
+            <div class="login-card">
+                <div class="logo">
+                    <h1>核能網路平台</h1>
+                    <p>企業級管理系統</p>
+                </div>
+
+                <form>
+                    <div class="form-group">
+                        <label for="username">使用者名稱</label>
+                        <input type="text" id="username" placeholder="請輸入使用者名稱" autocomplete="username">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">密碼</label>
+                        <input type="password" id="password" placeholder="請輸入密碼" autocomplete="current-password">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">登入</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="login-right">
+            <div class="brand-content">
+                <h2>會議室預約與內容管理平台</h2>
+                <p>透過我們整合的企業級解決方案，簡化您的會議室管理和內容發佈流程。專為要求可靠性和效率的專業團隊而設計。</p>
+
+                <div class="nuclear-image-container">
+                    <img src="nuclear-image-option-1.svg" alt="核能發電廠" class="nuclear-image active" id="image1">
+                    <img src="nuclear-image-option-2.svg" alt="原子能量" class="nuclear-image" id="image2">
+                    <img src="nuclear-image-option-3.svg" alt="反應爐核心" class="nuclear-image" id="image3">
+                </div>
+
+                <div class="image-selector">
+                    <button class="image-option active" onclick="showImage(1)">選項 1</button>
+                    <button class="image-option" onclick="showImage(2)">選項 2</button>
+                    <button class="image-option" onclick="showImage(3)">選項 3</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const lightIcon = document.querySelector('.light-icon');
+            const darkIcon = document.querySelector('.dark-icon');
+
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                lightIcon.style.display = 'none';
+                darkIcon.style.display = 'inline';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                lightIcon.style.display = 'inline';
+                darkIcon.style.display = 'none';
+            }
+        }
+
+        function showImage(num) {
+            // Hide all images
+            document.querySelectorAll('.nuclear-image').forEach(img => {
+                img.classList.remove('active');
+            });
+            document.querySelectorAll('.image-option').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected image
+            document.getElementById('image' + num).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+openapi: 3.0.3
+info:
+  title: NuclearWeb Content Management API
+  description: CMS content article management endpoints
+  version: 1.0.0
+servers:
+  - url: http://localhost:5000/api/v1
+    description: Development server
+paths:
+  /articles:
+    get:
+      summary: List articles
+      description: Get paginated list of articles (published only for users, all statuses for admins)
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: status
+          in: query
+          description: Filter by publication status (admin only)
+          schema:
+            type: string
+            enum: [Draft, PendingApproval, Published, Rejected]
+        - name: authorId
+          in: query
+          description: Filter by author ID
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Articles retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Article'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create article
+      description: Create a new article (draft status)
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateArticleRequest'
+      responses:
+        '201':
+          description: Article created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /articles/{id}:
+    get:
+      summary: Get article details
+      description: Retrieve a specific article by ID
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Article retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      summary: Update article
+      description: Update an existing article
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateArticleRequest'
+      responses:
+        '200':
+          description: Article updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      summary: Delete article
+      description: Delete an article (admin only, or author for draft articles)
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Article deleted successfully
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /articles/{id}/submit:
+    post:
+      summary: Submit article for approval
+      description: Change article status from Draft to PendingApproval
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Article submitted for approval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid status transition
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /articles/{id}/approve:
+    post:
+      summary: Approve article for publication
+      description: Approve article and set availability period (admin only)
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - availableFrom
+              properties:
+                availableFrom:
+                  type: string
+                  format: date-time
+                  description: Start of availability period
+                availableUntil:
+                  type: string
+                  format: date-time
+                  nullable: true
+                  description: End of availability period (null = indefinite)
+      responses:
+        '200':
+          description: Article approved and published
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '400':
+          description: Invalid status transition or date range
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /articles/{id}/reject:
+    post:
+      summary: Reject article
+      description: Reject article with reason (admin only)
+      tags:
+        - Content Articles
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                reason:
+                  type: string
+                  maxLength: 500
+      responses:
+        '200':
+          description: Article rejected
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Article'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /articles/published:
+    get:
+      summary: Get published articles
+      description: Get currently available published articles (public endpoint)
+      tags:
+        - Content Articles
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            default: 20
+      responses:
+        '200':
+          description: Published articles retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PublishedArticle'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+          description: TipTap JSON content
+        authorId:
+          type: integer
+        authorName:
+          type: string
+        publicationStatus:
+          type: string
+          enum: [Draft, PendingApproval, Published, Rejected]
+        availableFrom:
+          type: string
+          format: date-time
+          nullable: true
+        availableUntil:
+          type: string
+          format: date-time
+          nullable: true
+        viewCount:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        publishedAt:
+          type: string
+          format: date-time
+          nullable: true
+        publishedBy:
+          type: integer
+          nullable: true
+        publishedByName:
+          type: string
+          nullable: true
+
+    PublishedArticle:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        content:
+          type: string
+        authorName:
+          type: string
+        viewCount:
+          type: integer
+        publishedAt:
+          type: string
+          format: date-time
+
+    CreateArticleRequest:
+      type: object
+      required:
+        - title
+        - content
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        content:
+          type: string
+          description: TipTap JSON format
+
+    UpdateArticleRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+          maxLength: 255
+        content:
+          type: string
+
+    Pagination:
+      type: object
+      properties:
+        currentPage:
+          type: integer
+        pageSize:
+          type: integer
+        totalItems:
+          type: integer
+        totalPages:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+              nullable: true
+
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    ValidationError:
+      description: Validation error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Prototype A (Minimalist/Clean)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: background-color 200ms, color 200ms;
+        }
+
+        /* Light theme (default) */
+        body.light {
+            background-color: #FFFFFF;
+            color: #1F2937;
+        }
+
+        body.dark {
+            background-color: #111827;
+            color: #F9FAFB;
+        }
+
+        .container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 420px;
+            padding: 48px 32px;
+            border: 1px solid;
+            border-radius: 8px;
+            transition: border-color 200ms, background-color 200ms;
+        }
+
+        .light .login-card {
+            background-color: #F8F9FA;
+            border-color: #E5E7EB;
+        }
+
+        .dark .login-card {
+            background-color: #1F2937;
+            border-color: #374151;
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .logo h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            font-size: 0.875rem;
+            transition: color 200ms;
+        }
+
+        .light .logo p {
+            color: #6B7280;
+        }
+
+        .dark .logo p {
+            color: #9CA3AF;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 150ms, box-shadow 150ms, background-color 200ms, color 200ms;
+        }
+
+        .light input[type="text"],
+        .light input[type="password"] {
+            background-color: #FFFFFF;
+            border-color: #E5E7EB;
+            color: #1F2937;
+        }
+
+        .dark input[type="text"],
+        .dark input[type="password"] {
+            background-color: #111827;
+            border-color: #374151;
+            color: #F9FAFB;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #3B82F6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 10px 20px;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .btn-primary {
+            background-color: #3B82F6;
+            color: #FFFFFF;
+        }
+
+        .btn-primary:hover {
+            background-color: #2563EB;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            padding: 8px 16px;
+            background: transparent;
+            border: 1px solid;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .light .theme-toggle {
+            border-color: #E5E7EB;
+            color: #1F2937;
+        }
+
+        .dark .theme-toggle {
+            border-color: #374151;
+            color: #F9FAFB;
+        }
+
+        .light .theme-toggle:hover {
+            background-color: #F8F9FA;
+        }
+
+        .dark .theme-toggle:hover {
+            background-color: #1F2937;
+        }
+
+        .divider {
+            margin: 24px 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            transition: background-color 200ms;
+        }
+
+        .light .divider::before {
+            background-color: #E5E7EB;
+        }
+
+        .dark .divider::before {
+            background-color: #374151;
+        }
+
+        .divider span {
+            position: relative;
+            padding: 0 16px;
+            font-size: 0.875rem;
+            transition: background-color 200ms, color 200ms;
+        }
+
+        .light .divider span {
+            background-color: #F8F9FA;
+            color: #6B7280;
+        }
+
+        .dark .divider span {
+            background-color: #1F2937;
+            color: #9CA3AF;
+        }
+    </style>
+</head>
+<body class="light">
+    <button class="theme-toggle" onclick="toggleTheme()">
+        <span class="light-icon">🌙 Dark</span>
+        <span class="dark-icon" style="display: none;">☀️ Light</span>
+    </button>
+
+    <div class="container">
+        <div class="login-card">
+            <div class="logo">
+                <h1>NuclearWeb</h1>
+                <p>Meeting Reservations & CMS Platform</p>
+            </div>
+
+            <form>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Sign In</button>
+
+                <div class="divider">
+                    <span>Prototype A: Minimalist/Clean</span>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const lightIcon = document.querySelector('.light-icon');
+            const darkIcon = document.querySelector('.dark-icon');
+
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                lightIcon.style.display = 'none';
+                darkIcon.style.display = 'inline';
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                lightIcon.style.display = 'inline';
+                darkIcon.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
