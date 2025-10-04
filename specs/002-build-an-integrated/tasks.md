@@ -158,13 +158,13 @@
 - [x] T078 [P] IMenuService interface in backend/src/NuclearWeb.Core/Interfaces/IMenuService.cs
 - [x] T079 [P] IUserService interface in backend/src/NuclearWeb.Core/Interfaces/IUserService.cs
 - [x] T080 [P] IFileService interface in backend/src/NuclearWeb.Core/Interfaces/IFileService.cs
-- [ ] T081 AuthService implementation with JWT generation and password hashing in backend/src/NuclearWeb.Application/Services/AuthService.cs
-- [ ] T082 ReservationService with conflict detection logic in backend/src/NuclearWeb.Application/Services/ReservationService.cs
-- [ ] T083 RoomService with CRUD operations in backend/src/NuclearWeb.Application/Services/RoomService.cs
-- [ ] T084 ArticleService with approval workflow state transitions in backend/src/NuclearWeb.Application/Services/ArticleService.cs
-- [ ] T085 MenuService with hierarchical menu operations in backend/src/NuclearWeb.Application/Services/MenuService.cs
-- [ ] T086 UserService with role-based access logic in backend/src/NuclearWeb.Application/Services/UserService.cs
-- [ ] T087 FileService with upload validation (file type, size) in backend/src/NuclearWeb.Application/Services/FileService.cs
+- [x] T081 AuthService implementation with JWT generation and password hashing in backend/src/NuclearWeb.Application/Services/AuthService.cs
+- [x] T082 ReservationService with conflict detection logic in backend/src/NuclearWeb.Application/Services/ReservationService.cs
+- [x] T083 RoomService with CRUD operations in backend/src/NuclearWeb.Application/Services/RoomService.cs
+- [x] T084 ArticleService with approval workflow state transitions in backend/src/NuclearWeb.Application/Services/ArticleService.cs
+- [x] T085 MenuService with hierarchical menu operations in backend/src/NuclearWeb.Application/Services/MenuService.cs
+- [x] T086 UserService with role-based access logic in backend/src/NuclearWeb.Application/Services/UserService.cs
+- [x] T087 FileService with upload validation (file type, size) in backend/src/NuclearWeb.Application/Services/FileService.cs
 
 ## Phase 3.5: Backend API Controllers
 - [ ] T088 AuthController with login, refresh, logout, me endpoints in backend/src/NuclearWeb.API/Controllers/AuthController.cs

@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NuclearWeb.Core\NuclearWeb.Core.csproj" />
+    <ProjectReference Include="..\NuclearWeb.Infrastructure\NuclearWeb.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
