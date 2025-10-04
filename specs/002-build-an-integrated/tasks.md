@@ -167,7 +167,7 @@
 - [x] T087 FileService with upload validation (file type, size) in backend/src/NuclearWeb.Application/Services/FileService.cs
 
 ## Phase 3.5: Backend API Controllers
-- [ ] T088 AuthController with login, refresh, logout, me endpoints in backend/src/NuclearWeb.API/Controllers/AuthController.cs
+- [x] T088 AuthController with login, refresh, logout, me endpoints in backend/src/NuclearWeb.API/Controllers/AuthController.cs
 - [ ] T089 ReservationsController with CRUD and check-availability in backend/src/NuclearWeb.API/Controllers/ReservationsController.cs
 - [ ] T090 RoomsController with CRUD operations in backend/src/NuclearWeb.API/Controllers/RoomsController.cs
 - [ ] T091 ArticlesController with CRUD, submit, approve, reject in backend/src/NuclearWeb.API/Controllers/ArticlesController.cs
