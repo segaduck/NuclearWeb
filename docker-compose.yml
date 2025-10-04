@@ -1,0 +1,91 @@
+version: '3.8'
+
+services:
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: nuclearweb-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-nuclearweb_root_2024}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-nuclearweb}
+      MYSQL_USER: ${MYSQL_USER:-nuclearweb_user}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-nuclearweb_pass_2024}
+      TZ: Asia/Taipei
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - nuclearweb-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-nuclearweb_root_2024}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # .NET 9 Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: nuclearweb-backend
+    restart: unless-stopped
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT:-Production}
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=${MYSQL_DATABASE:-nuclearweb};User=${MYSQL_USER:-nuclearweb_user};Password=${MYSQL_PASSWORD:-nuclearweb_pass_2024};"
+      JWT__Secret: ${JWT_SECRET:-your_jwt_secret_key_here_change_in_production}
+      JWT__Issuer: ${JWT_ISSUER:-NuclearWeb}
+      JWT__Audience: ${JWT_AUDIENCE:-NuclearWebUsers}
+      JWT__ExpiryMinutes: ${JWT_EXPIRY_MINUTES:-60}
+      TZ: Asia/Taipei
+    ports:
+      - "5000:5000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - nuclearweb-network
+    volumes:
+      - backend_uploads:/app/uploads
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Vue.js 3 Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: nuclearweb-frontend
+    restart: unless-stopped
+    environment:
+      VITE_API_BASE_URL: ${VITE_API_BASE_URL:-http://localhost:5000}
+      TZ: Asia/Taipei
+    ports:
+      - "8080:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - nuclearweb-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  nuclearweb-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local
+  backend_uploads:
+    driver: local

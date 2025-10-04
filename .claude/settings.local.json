@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pwsh:*)",
+      "Bash(start \"E:\\AITest\\NuclearWeb\\specs\\002-build-an-integrated\\prototypes\\prototype-C\\01-login-final.html\")",
+      "Bash(gh auth:*)",
+      "Bash(gh repo create:*)",
+      "Bash(git checkout:*)",
+      "Bash(git push:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$(cat <<''EOF''\nAdd complete UI prototypes and design specification\n\n- Add 3 UI prototype options (A: Minimalist, B: Modern, C: Professional)\n- Finalize Prototype C with typography-focused design\n- Add comprehensive design system (Noto Sans TC fonts, colors, shadows)\n- Add TailwindCSS configuration template\n- Add Traditional Chinese (zh-Hant) localization structure\n- Update all text content to Traditional Chinese\n- Add API contracts and data models\n- Add implementation tasks (173 total)\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git merge 002-build-an-integrated -m \"$(cat <<''EOF''\nMerge feature 002-build-an-integrated: UI prototypes and design system\n\nComplete Phase 3.0 (UI Prototypes):\n- 3 prototype options with full design specifications\n- Selected Prototype C (Professional/Corporate)\n- Typography-focused design with Noto Sans TC\n- Traditional Chinese (zh-Hant) localization\n- TailwindCSS design tokens\n- API contracts and data models\n- 173 implementation tasks\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
+      "Bash(git merge:*)",
+      "Bash(dotnet new:*)",
+      "Bash(dotnet sln add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

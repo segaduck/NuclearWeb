@@ -35,11 +35,11 @@
 **CRITICAL: Implementation cannot begin until user selects a UI prototype**
 
 ### Prototype Generation
-- [ ] T000 Create prototypes directory structure in specs/002-build-an-integrated/prototypes/
-- [ ] T001 [P] Generate Prototype A (Minimalist/Clean) with 4 key pages in specs/002-build-an-integrated/prototypes/prototype-A/
-- [ ] T002 [P] Generate Prototype B (Modern/Bold) with 4 key pages in specs/002-build-an-integrated/prototypes/prototype-B/
-- [ ] T003 [P] Generate Prototype C (Professional/Corporate) with 4 key pages in specs/002-build-an-integrated/prototypes/prototype-C/
-- [ ] T004 Create design comparison document in specs/002-build-an-integrated/prototypes/comparison.md
+- [x] T000 Create prototypes directory structure in specs/002-build-an-integrated/prototypes/
+- [x] T001 [P] Generate Prototype A (Minimalist/Clean) with 4 key pages in specs/002-build-an-integrated/prototypes/prototype-A/
+- [x] T002 [P] Generate Prototype B (Modern/Bold) with 4 key pages in specs/002-build-an-integrated/prototypes/prototype-B/
+- [x] T003 [P] Generate Prototype C (Professional/Corporate) with 4 key pages in specs/002-build-an-integrated/prototypes/prototype-C/
+- [x] T004 Create design comparison document in specs/002-build-an-integrated/prototypes/comparison.md
 
 ### Key Pages (each prototype includes):
 1. **Login page** with theme toggle, light/dark mode preview
@@ -55,28 +55,28 @@
 - Light and dark theme variations
 
 ### User Approval
-- [ ] T005 **GATE**: Present all 3 prototypes to user for selection
-- [ ] T006 **GATE**: User selects preferred prototype (A, B, or C)
-- [ ] T007 Document selected prototype in specs/002-build-an-integrated/prototypes/design-decision.md
-- [ ] T008 Extract design tokens from selected prototype to frontend/tailwind.config.js template
+- [x] T005 **GATE**: Present all 3 prototypes to user for selection
+- [x] T006 **GATE**: User selects preferred prototype (A, B, or C)
+- [x] T007 Document selected prototype in specs/002-build-an-integrated/prototypes/design-decision.md
+- [x] T008 Extract design tokens from selected prototype to frontend/tailwind.config.js template
 
-**GATE STATUS**: ✋ STOP HERE - Tasks T009+ cannot proceed until prototype is approved
+**GATE STATUS**: ✅ APPROVED - Prototype C selected, ready for Phase 3.1
 
 ---
 
-## Phase 3.1: Setup & Infrastructure (BLOCKED until T008 complete)
-- [ ] T009 Create backend project structure (backend/src/, backend/tests/)
-- [ ] T010 Initialize .NET 9 solution with projects: NuclearWeb.API, NuclearWeb.Core, NuclearWeb.Infrastructure, NuclearWeb.Application
-- [ ] T011 Create frontend project structure (frontend/src/, frontend/tests/)
-- [ ] T012 Initialize Vue.js 3 project with Vite, TypeScript, Vue Router, Pinia, TailwindCSS (apply design tokens from T008)
-- [ ] T013 [P] Create backend Dockerfile using mcr.microsoft.com/dotnet/aspnet:9.0
-- [ ] T014 [P] Create frontend Dockerfile for production build
-- [ ] T015 Create docker-compose.yml with services: mysql, backend, frontend
-- [ ] T016 Create MySQL initialization script with all 7 entity schemas from data-model.md
-- [ ] T017 [P] Configure backend appsettings.json (connection strings, JWT settings, CORS)
-- [ ] T018 [P] Configure frontend environment files (.env.development, .env.production)
-- [ ] T019 [P] Install backend NuGet packages: EF Core, MySQL Connector, JWT, BCrypt, xUnit, Moq, FluentAssertions
-- [ ] T020 [P] Install frontend npm packages: axios, @fullcalendar/vue3, @tiptap/vue-3, @headlessui/vue
+## Phase 3.1: Setup & Infrastructure (UNBLOCKED - T008 complete)
+- [x] T009 Create backend project structure (backend/src/, backend/tests/)
+- [x] T010 Initialize .NET 9 solution with projects: NuclearWeb.API, NuclearWeb.Core, NuclearWeb.Infrastructure, NuclearWeb.Application
+- [x] T011 Create frontend project structure (frontend/src/, frontend/tests/)
+- [x] T012 Initialize Vue.js 3 project with Vite, TypeScript, Vue Router, Pinia, TailwindCSS (apply design tokens from T008)
+- [x] T013 [P] Create backend Dockerfile using mcr.microsoft.com/dotnet/aspnet:9.0
+- [x] T014 [P] Create frontend Dockerfile for production build
+- [x] T015 Create docker-compose.yml with services: mysql, backend, frontend
+- [x] T016 Create MySQL initialization script with all 7 entity schemas from data-model.md (centralized in database/init.sql)
+- [x] T017 [P] Configure backend appsettings.json (connection strings, JWT settings, CORS)
+- [x] T018 [P] Configure frontend environment files (.env.development, .env.production)
+- [x] T019 [P] Install backend NuGet packages: EF Core, MySQL Connector, JWT, BCrypt, xUnit, Moq, FluentAssertions
+- [x] T020 [P] Install frontend npm packages: axios, @fullcalendar/vue3, @tiptap/vue-3, @headlessui/vue
 
 ## Phase 3.2: Tests First - Backend Contract Tests (TDD) ⚠️ MUST COMPLETE BEFORE 3.3
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**

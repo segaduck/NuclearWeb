@@ -83,6 +83,7 @@ Both modules share unified authentication, role-based access control (Admin/Norm
 - Cross-platform compatibility: Must run on Linux via Docker
 - No Blazor (Vue.js for frontend only)
 - Language: All UI must be in Traditional Chinese (繁體中文)
+- **Database Initialization**: MUST use single `database/init.sql` file for all schema, indexes, and seed data (see DATABASE.md)
 
 **Scale/Scope**:
 - User base: 10-50 concurrent users (small organization)

@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Global Styles for NuclearWeb */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  @apply font-sans bg-background-light dark:bg-background-dark text-text-primary-light dark:text-text-primary-dark;
+  transition: background-color 200ms, color 200ms;
+  min-height: 100vh;
+}
+
+#app {
+  min-height: 100vh;
+}

@@ -1,50 +1,138 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report:
+Version change: Initial version → 1.0.0
+Modified principles: N/A (initial constitution)
+Added sections: All sections (new constitution)
+Removed sections: N/A
+Templates requiring updates:
+  ✅ plan-template.md - Verified constitution check alignment
+  ✅ spec-template.md - Verified requirements alignment
+  ✅ tasks-template.md - Verified TDD and task categorization alignment
+  ✅ agent-file-template.md - Verified structure alignment
+Follow-up TODOs: None
+-->
+
+# NuclearWeb Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Specification-First Development
+Every feature begins with a complete, non-technical specification that:
+- Describes WHAT users need and WHY (never HOW to implement)
+- Contains testable acceptance criteria
+- Marks all ambiguities with [NEEDS CLARIFICATION]
+- Is written for business stakeholders, not developers
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+**Rationale**: Clear specifications prevent scope creep, enable better planning, and ensure alignment between business needs and technical implementation.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Test-Driven Development (NON-NEGOTIABLE)
+TDD cycle is mandatory for all features:
+- Tests MUST be written first and approved by user
+- Tests MUST fail before implementation begins
+- Implementation follows Red-Green-Refactor strictly
+- Contract tests for all API endpoints
+- Integration tests for all user stories
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+**Rationale**: TDD ensures code correctness, prevents regressions, and creates living documentation of system behavior.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Design Before Implementation
+Planning artifacts MUST be completed before coding:
+- Research phase resolves all technical unknowns
+- Data models define entities and relationships
+- API contracts specify all interfaces
+- Quickstart guides document user workflows
+- Agent-specific guidance updated incrementally
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: Upfront design prevents costly mid-implementation pivots and ensures architectural consistency.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Constitution Compliance
+All features MUST pass constitution checks at two gates:
+- Pre-research: Verify feature aligns with principles
+- Post-design: Verify design doesn't introduce violations
+- Complexity violations MUST be justified and documented
+- Simpler alternatives MUST be evaluated first
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+**Rationale**: Constitutional governance prevents technical debt accumulation and maintains long-term code quality.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Structured Task Execution
+Implementation follows dependency-ordered task lists:
+- Tasks generated from design artifacts (never ad-hoc)
+- Parallel tasks [P] for independent work
+- Sequential tasks for dependencies
+- TDD ordering: tests before implementation
+- Exact file paths specified for each task
+
+**Rationale**: Structured execution enables parallelization, prevents merge conflicts, and provides clear progress tracking.
+
+## Development Workflow
+
+### Planning Phase
+1. Feature specification created via `/specify` command
+2. Clarification questions resolved via `/clarify` command
+3. Implementation plan generated via `/plan` command
+4. Tasks generated via `/tasks` command
+5. Implementation executed via `/implement` command or manually
+
+### Quality Gates
+- **Specification Gate**: No [NEEDS CLARIFICATION] markers remain
+- **Constitution Gate (Pre)**: Feature aligns with principles
+- **Constitution Gate (Post)**: Design doesn't violate principles
+- **Test Gate**: All tests written and failing before implementation
+- **Completion Gate**: All tests passing, quickstart validated
+
+### Documentation Requirements
+All features maintain documentation in `specs/[###-feature-name]/`:
+- `spec.md`: Non-technical feature specification
+- `plan.md`: Technical implementation plan
+- `research.md`: Technology decisions and rationale
+- `data-model.md`: Entity definitions and relationships
+- `quickstart.md`: User workflow validation
+- `contracts/`: API interface specifications
+- `tasks.md`: Dependency-ordered task list
+
+## Agent Integration
+
+### Agent-Specific Files
+Projects maintain agent-specific guidance files:
+- `CLAUDE.md`: Claude Code specific guidance
+- `.github/copilot-instructions.md`: GitHub Copilot guidance
+- `GEMINI.md`: Gemini CLI guidance
+- `QWEN.md`: Qwen Code guidance
+- `AGENTS.md`: Generic opencode guidance
+
+**Update Policy**: Agent files updated incrementally (O(1) operation) during Phase 1 design via `update-agent-context.ps1` script.
+
+### Content Constraints
+- Keep under 150 lines for token efficiency
+- Extract only active technologies from plans
+- Preserve manual additions between markers
+- Update recent changes (last 3 features only)
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+### Amendment Procedure
+1. Propose changes with rationale and impact analysis
+2. Document affected templates and downstream artifacts
+3. Update constitution version following semantic versioning
+4. Propagate changes to all dependent templates
+5. Commit with version bump and change summary
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+### Versioning Policy
+- **MAJOR**: Backward-incompatible principle changes or removals
+- **MINOR**: New principles added or material guidance expansion
+- **PATCH**: Clarifications, wording fixes, non-semantic refinements
+
+### Compliance Enforcement
+- All slash commands validate against current constitution
+- Template updates MUST maintain constitutional alignment
+- Violations require documented justification in Complexity Tracking
+- Unjustifiable complexity blocks feature approval
+
+### Living Document Status
+This constitution evolves with project needs but maintains core values:
+- Specification-first thinking
+- Test-driven development
+- Design before implementation
+- Transparent governance
+
+**Version**: 1.0.0 | **Ratified**: 2025-10-03 | **Last Amended**: 2025-10-03
