@@ -82,62 +82,62 @@
 **CRITICAL: These tests MUST be written and MUST FAIL before ANY implementation**
 
 ### Authentication API Tests (contracts/auth.yaml)
-- [ ] T021 [P] Contract test POST /api/v1/auth/login in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
-- [ ] T022 [P] Contract test POST /api/v1/auth/refresh in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
-- [ ] T023 [P] Contract test POST /api/v1/auth/logout in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
-- [ ] T024 [P] Contract test GET /api/v1/auth/me in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
+- [x] T021 [P] Contract test POST /api/v1/auth/login in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
+- [x] T022 [P] Contract test POST /api/v1/auth/refresh in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
+- [x] T023 [P] Contract test POST /api/v1/auth/logout in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
+- [x] T024 [P] Contract test GET /api/v1/auth/me in backend/tests/NuclearWeb.Tests.Contract/AuthControllerTests.cs
 
 ### Reservations API Tests (contracts/reservations.yaml)
-- [ ] T025 [P] Contract test GET /api/v1/reservations in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
-- [ ] T026 [P] Contract test POST /api/v1/reservations in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
-- [ ] T027 [P] Contract test GET /api/v1/reservations/{id} in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
-- [ ] T028 [P] Contract test PUT /api/v1/reservations/{id} in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
-- [ ] T029 [P] Contract test DELETE /api/v1/reservations/{id} in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
-- [ ] T030 [P] Contract test POST /api/v1/reservations/check-availability in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
+- [x] T025 [P] Contract test GET /api/v1/reservations in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
+- [x] T026 [P] Contract test POST /api/v1/reservations in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
+- [x] T027 [P] Contract test GET /api/v1/reservations/{id} in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
+- [x] T028 [P] Contract test PUT /api/v1/reservations/{id} in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
+- [x] T029 [P] Contract test DELETE /api/v1/reservations/{id} in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
+- [x] T030 [P] Contract test POST /api/v1/reservations/check-availability in backend/tests/NuclearWeb.Tests.Contract/ReservationsControllerTests.cs
 
 ### Rooms API Tests (contracts/rooms.yaml)
-- [ ] T031 [P] Contract test GET /api/v1/rooms in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
-- [ ] T032 [P] Contract test POST /api/v1/rooms in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
-- [ ] T033 [P] Contract test GET /api/v1/rooms/{id} in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
-- [ ] T034 [P] Contract test PUT /api/v1/rooms/{id} in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
-- [ ] T035 [P] Contract test DELETE /api/v1/rooms/{id} in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
+- [x] T031 [P] Contract test GET /api/v1/rooms in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
+- [x] T032 [P] Contract test POST /api/v1/rooms in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
+- [x] T033 [P] Contract test GET /api/v1/rooms/{id} in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
+- [x] T034 [P] Contract test PUT /api/v1/rooms/{id} in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
+- [x] T035 [P] Contract test DELETE /api/v1/rooms/{id} in backend/tests/NuclearWeb.Tests.Contract/RoomsControllerTests.cs
 
 ### Content API Tests (contracts/content.yaml)
-- [ ] T036 [P] Contract test GET /api/v1/articles in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T037 [P] Contract test POST /api/v1/articles in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T038 [P] Contract test GET /api/v1/articles/{id} in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T039 [P] Contract test PUT /api/v1/articles/{id} in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T040 [P] Contract test DELETE /api/v1/articles/{id} in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T041 [P] Contract test POST /api/v1/articles/{id}/submit in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T042 [P] Contract test POST /api/v1/articles/{id}/approve in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T043 [P] Contract test POST /api/v1/articles/{id}/reject in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
-- [ ] T044 [P] Contract test GET /api/v1/articles/published in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T036 [P] Contract test GET /api/v1/articles in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T037 [P] Contract test POST /api/v1/articles in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T038 [P] Contract test GET /api/v1/articles/{id} in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T039 [P] Contract test PUT /api/v1/articles/{id} in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T040 [P] Contract test DELETE /api/v1/articles/{id} in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T041 [P] Contract test POST /api/v1/articles/{id}/submit in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T042 [P] Contract test POST /api/v1/articles/{id}/approve in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T043 [P] Contract test POST /api/v1/articles/{id}/reject in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
+- [x] T044 [P] Contract test GET /api/v1/articles/published in backend/tests/NuclearWeb.Tests.Contract/ArticlesControllerTests.cs
 
 ### Menus API Tests (contracts/menus.yaml)
-- [ ] T045 [P] Contract test GET /api/v1/menus in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
-- [ ] T046 [P] Contract test POST /api/v1/menus in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
-- [ ] T047 [P] Contract test GET /api/v1/menus/{id} in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
-- [ ] T048 [P] Contract test PUT /api/v1/menus/{id} in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
-- [ ] T049 [P] Contract test DELETE /api/v1/menus/{id} in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
-- [ ] T050 [P] Contract test PUT /api/v1/menus/reorder in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
+- [x] T045 [P] Contract test GET /api/v1/menus in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
+- [x] T046 [P] Contract test POST /api/v1/menus in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
+- [x] T047 [P] Contract test GET /api/v1/menus/{id} in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
+- [x] T048 [P] Contract test PUT /api/v1/menus/{id} in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
+- [x] T049 [P] Contract test DELETE /api/v1/menus/{id} in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
+- [x] T050 [P] Contract test PUT /api/v1/menus/reorder in backend/tests/NuclearWeb.Tests.Contract/MenusControllerTests.cs
 
 ### Users API Tests (contracts/users.yaml)
-- [ ] T051 [P] Contract test GET /api/v1/users in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
-- [ ] T052 [P] Contract test POST /api/v1/users in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
-- [ ] T053 [P] Contract test GET /api/v1/users/{id} in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
-- [ ] T054 [P] Contract test PUT /api/v1/users/{id} in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
-- [ ] T055 [P] Contract test DELETE /api/v1/users/{id} in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
-- [ ] T056 [P] Contract test POST /api/v1/users/{id}/reset-password in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
-- [ ] T057 [P] Contract test PUT /api/v1/users/me/preferences in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
+- [x] T051 [P] Contract test GET /api/v1/users in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
+- [x] T052 [P] Contract test POST /api/v1/users in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
+- [x] T053 [P] Contract test GET /api/v1/users/{id} in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
+- [x] T054 [P] Contract test PUT /api/v1/users/{id} in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
+- [x] T055 [P] Contract test DELETE /api/v1/users/{id} in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
+- [x] T056 [P] Contract test POST /api/v1/users/{id}/reset-password in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
+- [x] T057 [P] Contract test PUT /api/v1/users/me/preferences in backend/tests/NuclearWeb.Tests.Contract/UsersControllerTests.cs
 
 ### Files API Tests (contracts/files.yaml)
-- [ ] T058 [P] Contract test GET /api/v1/files in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
-- [ ] T059 [P] Contract test POST /api/v1/files in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
-- [ ] T060 [P] Contract test GET /api/v1/files/{id} in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
-- [ ] T061 [P] Contract test PUT /api/v1/files/{id} in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
-- [ ] T062 [P] Contract test DELETE /api/v1/files/{id} in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
-- [ ] T063 [P] Contract test GET /api/v1/files/{id}/download in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
-- [ ] T064 [P] Contract test GET /api/v1/files/categories in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
+- [x] T058 [P] Contract test GET /api/v1/files in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
+- [x] T059 [P] Contract test POST /api/v1/files in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
+- [x] T060 [P] Contract test GET /api/v1/files/{id} in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
+- [x] T061 [P] Contract test PUT /api/v1/files/{id} in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
+- [x] T062 [P] Contract test DELETE /api/v1/files/{id} in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
+- [x] T063 [P] Contract test GET /api/v1/files/{id}/download in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
+- [x] T064 [P] Contract test GET /api/v1/files/categories in backend/tests/NuclearWeb.Tests.Contract/FilesControllerTests.cs
 
 ## Phase 3.3: Backend Core Models & DbContext (ONLY after tests are failing)
 - [ ] T065 [P] User entity model in backend/src/NuclearWeb.Core/Entities/User.cs
