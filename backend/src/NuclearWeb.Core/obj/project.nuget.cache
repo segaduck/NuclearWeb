@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6je5lR1yC4M=",
+  "dgSpecHash": "lQpiYxJAUaY=",
   "success": true,
-  "projectFilePath": "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Core\\NuclearWeb.Core.csproj",
+  "projectFilePath": "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

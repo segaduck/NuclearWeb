@@ -55,9 +55,9 @@ public class Reservation
     /// <summary>
     /// 預約狀態
     /// Reservation status
-    /// Values: "Confirmed", "Cancelled"
+    /// Values: Confirmed, Cancelled
     /// </summary>
-    public string Status { get; set; } = "Confirmed";
+    public ReservationStatus Status { get; set; } = ReservationStatus.Confirmed;
 
     /// <summary>
     /// 記錄建立時間戳記

@@ -60,7 +60,11 @@
 - [x] T007 Document selected prototype in specs/002-build-an-integrated/prototypes/design-decision.md
 - [x] T008 Extract design tokens from selected prototype to frontend/tailwind.config.js template
 
-**GATE STATUS**: ✅ APPROVED - Prototype C selected, ready for Phase 3.1
+**GATE STATUS**: ✅ APPROVED - All prototypes confirmed:
+- Login/Overall: Prototype C (Professional/Corporate)
+- Meeting Rooms: Prototype B Enhanced (List-First with Weekly View & Prototype C cards)
+- CMS: Integrated Multi-View (Card/List/Modal Editor)
+Ready for Phase 3.5+ implementation
 
 ---
 
@@ -168,54 +172,54 @@
 
 ## Phase 3.5: Backend API Controllers
 - [x] T088 AuthController with login, refresh, logout, me endpoints in backend/src/NuclearWeb.API/Controllers/AuthController.cs
-- [ ] T089 ReservationsController with CRUD and check-availability in backend/src/NuclearWeb.API/Controllers/ReservationsController.cs
-- [ ] T090 RoomsController with CRUD operations in backend/src/NuclearWeb.API/Controllers/RoomsController.cs
-- [ ] T091 ArticlesController with CRUD, submit, approve, reject in backend/src/NuclearWeb.API/Controllers/ArticlesController.cs
-- [ ] T092 MenusController with CRUD and reorder in backend/src/NuclearWeb.API/Controllers/MenusController.cs
-- [ ] T093 UsersController with CRUD, reset-password, preferences in backend/src/NuclearWeb.API/Controllers/UsersController.cs
-- [ ] T094 FilesController with upload, download, CRUD in backend/src/NuclearWeb.API/Controllers/FilesController.cs
+- [x] T089 ReservationsController with CRUD and check-availability in backend/src/NuclearWeb.API/Controllers/ReservationsController.cs
+- [x] T090 RoomsController with CRUD operations in backend/src/NuclearWeb.API/Controllers/RoomsController.cs
+- [x] T091 ArticlesController with CRUD, submit, approve, reject in backend/src/NuclearWeb.API/Controllers/ArticlesController.cs
+- [x] T092 MenusController with CRUD and reorder in backend/src/NuclearWeb.API/Controllers/MenusController.cs
+- [x] T093 UsersController with CRUD, reset-password, preferences in backend/src/NuclearWeb.API/Controllers/UsersController.cs
+- [x] T094 FilesController with upload, download, CRUD in backend/src/NuclearWeb.API/Controllers/FilesController.cs
 
 ## Phase 3.6: Backend Middleware & Infrastructure
-- [ ] T095 JWT authentication middleware in backend/src/NuclearWeb.API/Middleware/JwtAuthenticationMiddleware.cs
-- [ ] T096 Role-based authorization policies (Admin, User) in backend/src/NuclearWeb.API/Configuration/AuthorizationPolicies.cs
-- [ ] T097 Global exception handling middleware in backend/src/NuclearWeb.API/Middleware/ExceptionHandlingMiddleware.cs
-- [ ] T098 Request/response logging middleware in backend/src/NuclearWeb.API/Middleware/RequestLoggingMiddleware.cs
-- [ ] T099 CORS configuration for frontend origin in backend/src/NuclearWeb.API/Program.cs
-- [ ] T100 File storage infrastructure (local disk storage) in backend/src/NuclearWeb.Infrastructure/FileStorage/LocalFileStorage.cs
-- [ ] T101 Database migrations for all entities in backend/src/NuclearWeb.Infrastructure/Migrations/
+- [x] T095 JWT authentication middleware in backend/src/NuclearWeb.API/Middleware/JwtAuthenticationMiddleware.cs
+- [x] T096 Role-based authorization policies (Admin, User) in backend/src/NuclearWeb.API/Configuration/AuthorizationPolicies.cs
+- [x] T097 Global exception handling middleware in backend/src/NuclearWeb.API/Middleware/ExceptionHandlingMiddleware.cs
+- [x] T098 Request/response logging middleware in backend/src/NuclearWeb.API/Middleware/RequestLoggingMiddleware.cs
+- [x] T099 CORS configuration for frontend origin in backend/src/NuclearWeb.API/Program.cs
+- [x] T100 File storage infrastructure (local disk storage) in backend/src/NuclearWeb.Infrastructure/FileStorage/LocalFileStorage.cs
+- [x] T101 Database migrations for all entities in backend/src/NuclearWeb.Infrastructure/Migrations/
 
 ## Phase 3.7: Frontend Core Setup
-- [ ] T102 [P] API client service with axios interceptors in frontend/src/services/api.ts
-- [ ] T103 [P] Auth service (login, logout, refresh token) in frontend/src/services/authService.ts
-- [ ] T104 [P] Reservations service in frontend/src/services/reservationsService.ts
-- [ ] T105 [P] Rooms service in frontend/src/services/roomsService.ts
-- [ ] T106 [P] Articles service in frontend/src/services/articlesService.ts
-- [ ] T107 [P] Menus service in frontend/src/services/menusService.ts
-- [ ] T108 [P] Users service in frontend/src/services/usersService.ts
-- [ ] T109 [P] Files service in frontend/src/services/filesService.ts
-- [ ] T110 [P] Auth Pinia store in frontend/src/stores/authStore.ts
-- [ ] T111 [P] Reservations Pinia store with calendar data caching in frontend/src/stores/reservationsStore.ts
-- [ ] T112 [P] Theme Pinia store (light/dark switching) in frontend/src/stores/themeStore.ts
-- [ ] T113 [P] Sidebar Pinia store (collapsed state) in frontend/src/stores/sidebarStore.ts
-- [ ] T114 Vue Router configuration with auth guards in frontend/src/router/index.ts
+- [x] T102 [P] API client service with axios interceptors in frontend/src/services/api.ts
+- [x] T103 [P] Auth service (login, logout, refresh token) in frontend/src/services/authService.ts
+- [x] T104 [P] Reservations service in frontend/src/services/reservationsService.ts
+- [x] T105 [P] Rooms service in frontend/src/services/roomsService.ts
+- [x] T106 [P] Articles service in frontend/src/services/articlesService.ts
+- [x] T107 [P] Menus service in frontend/src/services/menusService.ts
+- [x] T108 [P] Users service in frontend/src/services/usersService.ts
+- [x] T109 [P] Files service in frontend/src/services/filesService.ts
+- [x] T110 [P] Auth Pinia store in frontend/src/stores/authStore.ts
+- [x] T111 [P] Reservations Pinia store with calendar data caching in frontend/src/stores/reservationsStore.ts
+- [x] T112 [P] Theme Pinia store (light/dark switching) in frontend/src/stores/themeStore.ts
+- [x] T113 [P] Sidebar Pinia store (collapsed state) in frontend/src/stores/sidebarStore.ts
+- [x] T114 Vue Router configuration with auth guards in frontend/src/router/index.ts
 
 ## Phase 3.8: Frontend Components - Layout & Navigation
-- [ ] T115 AppLayout component with sidebar and header in frontend/src/components/layout/AppLayout.vue
-- [ ] T116 Sidebar component with role-based menu items and collapse toggle in frontend/src/components/layout/Sidebar.vue
-- [ ] T117 Header component with theme toggle and user menu in frontend/src/components/layout/Header.vue
-- [ ] T118 Responsive breakpoint composable for mobile/tablet/desktop in frontend/src/composables/useBreakpoint.ts
+- [x] T115 AppLayout component with sidebar and header in frontend/src/components/layout/AppLayout.vue
+- [x] T116 Sidebar component with role-based menu items and collapse toggle in frontend/src/components/layout/Sidebar.vue
+- [x] T117 Header component with theme toggle and user menu in frontend/src/components/layout/Header.vue
+- [x] T118 Responsive breakpoint composable for mobile/tablet/desktop in frontend/src/composables/useBreakpoint.ts
 
 ## Phase 3.9: Frontend Pages - Authentication
-- [ ] T119 Login page with username/password form in frontend/src/pages/Login.vue
-- [ ] T120 Logout functionality integrated in Header component
+- [x] T119 Login page with username/password form in frontend/src/pages/Login.vue
+- [x] T120 Logout functionality integrated in Header component
 
 ## Phase 3.10: Frontend Pages - Reservations Module
-- [ ] T121 Reservations page with FullCalendar integration in frontend/src/pages/reservations/ReservationsPage.vue
-- [ ] T122 Calendar toolbar with day/week/month view switcher in frontend/src/components/reservations/CalendarToolbar.vue
-- [ ] T123 Create/Edit reservation dialog component in frontend/src/components/reservations/ReservationDialog.vue
-- [ ] T124 Conflict detection integration in reservation form in frontend/src/components/reservations/ReservationDialog.vue
-- [ ] T125 Reservation details view component in frontend/src/components/reservations/ReservationDetails.vue
-- [ ] T126 Room selector component with capacity display in frontend/src/components/reservations/RoomSelector.vue
+- [x] T121 Reservations page with FullCalendar integration in frontend/src/pages/reservations/ReservationsPage.vue
+- [x] T122 Calendar toolbar with day/week/month view switcher in frontend/src/components/reservations/CalendarToolbar.vue
+- [x] T123 Create/Edit reservation dialog component in frontend/src/components/reservations/ReservationDialog.vue
+- [x] T124 Conflict detection integration in reservation form in frontend/src/components/reservations/ReservationDialog.vue
+- [x] T125 Reservation details view component in frontend/src/components/reservations/ReservationDetails.vue
+- [x] T126 Room selector component with capacity display in frontend/src/components/reservations/RoomSelector.vue
 
 ## Phase 3.11: Frontend Pages - CMS Admin Module
 - [ ] T127 Article list page with status filters in frontend/src/pages/cms/ArticleListPage.vue
@@ -243,8 +247,8 @@
 - [ ] T145 Preferences editor (theme, sidebar) in frontend/src/components/user/PreferencesEditor.vue
 
 ## Phase 3.14: Frontend Pages - Room Management
-- [ ] T146 Room list page (admin only) in frontend/src/pages/admin/RoomListPage.vue
-- [ ] T147 Room create/edit dialog in frontend/src/components/admin/RoomDialog.vue
+- [x] T146 Room list page (admin only) in frontend/src/pages/admin/RoomListPage.vue
+- [x] T147 Room create/edit dialog in frontend/src/components/admin/RoomDialog.vue
 
 ## Phase 3.15: Integration Tests (Backend)
 - [ ] T148 [P] Integration test: User registration and login flow in backend/tests/NuclearWeb.Tests.Integration/AuthFlowTests.cs
@@ -275,7 +279,7 @@
 - [ ] T167 [P] Frontend component unit tests (Vitest) in frontend/tests/unit/components/
 - [ ] T168 Code refactoring: Remove duplication in services in backend/src/NuclearWeb.Application/Services/
 - [ ] T169 Add API documentation comments (XML docs) in backend/src/NuclearWeb.API/Controllers/
-- [ ] T170 Create deployment README.md with Docker instructions in repository root
+- [x] T170 Create deployment README.md with Docker instructions in repository root
 - [ ] T171 Execute manual testing using quickstart.md scenarios
 - [ ] T172 Final security review (CORS, auth, file validation) across backend/src/
 

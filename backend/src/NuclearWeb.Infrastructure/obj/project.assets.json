@@ -653,27 +653,28 @@
           "buildTransitive/Mono.TextTemplating.targets": {}
         }
       },
-      "MySqlConnector/2.3.5": {
+      "MySqlConnector/2.4.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Logging.Abstractions": "7.0.1"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2",
+          "Microsoft.Extensions.Logging.Abstractions": "8.0.2"
         },
         "compile": {
-          "lib/net8.0/MySqlConnector.dll": {
+          "lib/net9.0/MySqlConnector.dll": {
             "related": ".xml"
           }
         },
         "runtime": {
-          "lib/net8.0/MySqlConnector.dll": {
+          "lib/net9.0/MySqlConnector.dll": {
             "related": ".xml"
           }
         }
       },
-      "Pomelo.EntityFrameworkCore.MySql/9.0.0-preview.1": {
+      "Pomelo.EntityFrameworkCore.MySql/9.0.0-preview.2.efcore.9.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "[9.0.0-preview.1.24081.2, 9.0.0-preview.1.999999]",
-          "MySqlConnector": "2.3.5"
+          "Microsoft.EntityFrameworkCore.Relational": "[9.0.0, 9.0.999]",
+          "MySqlConnector": "2.4.0"
         },
         "compile": {
           "lib/net8.0/Pomelo.EntityFrameworkCore.MySql.dll": {
@@ -909,6 +910,16 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "NuclearWeb.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v9.0",
+        "compile": {
+          "bin/placeholder/NuclearWeb.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/NuclearWeb.Core.dll": {}
         }
       }
     }
@@ -2353,10 +2364,10 @@
         "readme.md"
       ]
     },
-    "MySqlConnector/2.3.5": {
-      "sha512": "AmEfUPkFl+Ev6jJ8Dhns3CYHBfD12RHzGYWuLt6DfG6/af6YvOMyPz74ZPPjBYQGRJkumD2Z48Kqm8s5DJuhLA==",
+    "MySqlConnector/2.4.0": {
+      "sha512": "78M+gVOjbdZEDIyXQqcA7EYlCGS3tpbUELHvn6638A2w0pkPI625ixnzsa5staAd3N9/xFmPJtkKDYwsXpFi/w==",
       "type": "package",
-      "path": "mysqlconnector/2.3.5",
+      "path": "mysqlconnector/2.4.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2369,23 +2380,23 @@
         "lib/net48/MySqlConnector.xml",
         "lib/net6.0/MySqlConnector.dll",
         "lib/net6.0/MySqlConnector.xml",
-        "lib/net7.0/MySqlConnector.dll",
-        "lib/net7.0/MySqlConnector.xml",
         "lib/net8.0/MySqlConnector.dll",
         "lib/net8.0/MySqlConnector.xml",
+        "lib/net9.0/MySqlConnector.dll",
+        "lib/net9.0/MySqlConnector.xml",
         "lib/netstandard2.0/MySqlConnector.dll",
         "lib/netstandard2.0/MySqlConnector.xml",
         "lib/netstandard2.1/MySqlConnector.dll",
         "lib/netstandard2.1/MySqlConnector.xml",
         "logo.png",
-        "mysqlconnector.2.3.5.nupkg.sha512",
+        "mysqlconnector.2.4.0.nupkg.sha512",
         "mysqlconnector.nuspec"
       ]
     },
-    "Pomelo.EntityFrameworkCore.MySql/9.0.0-preview.1": {
-      "sha512": "qxIikXLZzQFI7I7VqES9BjMi+bfFYcb7iN/6NeN1j16Cz4MamrzqvjV/1bX1Olc19KRXWPGKUSXJVp/j94UpDg==",
+    "Pomelo.EntityFrameworkCore.MySql/9.0.0-preview.2.efcore.9.0.0": {
+      "sha512": "Gf1L9hdJFW3zPw1CWqgkBLLxySAPzRKeWXFwm7YFxzgPQvM4ISkR8ZFGlVYWAxfd0oYxnXRulu+WVgt0jdHQ5Q==",
       "type": "package",
-      "path": "pomelo.entityframeworkcore.mysql/9.0.0-preview.1",
+      "path": "pomelo.entityframeworkcore.mysql/9.0.0-preview.2.efcore.9.0.0",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -2393,7 +2404,7 @@
         "icon.png",
         "lib/net8.0/Pomelo.EntityFrameworkCore.MySql.dll",
         "lib/net8.0/Pomelo.EntityFrameworkCore.MySql.xml",
-        "pomelo.entityframeworkcore.mysql.9.0.0-preview.1.nupkg.sha512",
+        "pomelo.entityframeworkcore.mysql.9.0.0-preview.2.efcore.9.0.0.nupkg.sha512",
         "pomelo.entityframeworkcore.mysql.nuspec"
       ]
     },
@@ -2784,48 +2795,49 @@
         "system.threading.channels.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "NuclearWeb.Core/1.0.0": {
+      "type": "project",
+      "path": "../NuclearWeb.Core/NuclearWeb.Core.csproj",
+      "msbuildProject": "../NuclearWeb.Core/NuclearWeb.Core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net9.0": [
       "Microsoft.EntityFrameworkCore.Design >= 9.0.0",
-      "Pomelo.EntityFrameworkCore.MySql >= 9.0.0-preview.1"
+      "NuclearWeb.Core >= 1.0.0",
+      "Pomelo.EntityFrameworkCore.MySql >= 9.0.0-preview.2"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Howard\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "/root/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\NuclearWeb.Infrastructure.csproj",
+      "projectUniqueName": "/app/src/NuclearWeb.Infrastructure/NuclearWeb.Infrastructure.csproj",
       "projectName": "NuclearWeb.Infrastructure",
-      "projectPath": "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\NuclearWeb.Infrastructure.csproj",
-      "packagesPath": "C:\\Users\\Howard\\.nuget\\packages\\",
-      "outputPath": "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\obj\\",
+      "projectPath": "/app/src/NuclearWeb.Infrastructure/NuclearWeb.Infrastructure.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/app/src/NuclearWeb.Infrastructure/obj/",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Howard\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 20.1.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\DevExpress 20.1\\Components\\System\\Components\\Packages": {},
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net9.0": {
           "targetAlias": "net9.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj": {
+              "projectPath": "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -2852,7 +2864,7 @@
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
-            "version": "[9.0.0-preview.1, )"
+            "version": "[9.0.0-preview.2, )"
           }
         },
         "imports": [
@@ -2871,17 +2883,17 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
   },
   "logs": [
     {
-      "code": "NU1608",
+      "code": "NU1603",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "在相依性條件約束之外偵測到套件版本: Pomelo.EntityFrameworkCore.MySql 9.0.0-preview.1 需要 Microsoft.EntityFrameworkCore.Relational (>= 9.0.0-preview.1.24081.2 && <= 9.0.0-preview.1.999999)，但解析出版本 Microsoft.EntityFrameworkCore.Relational 9.0.0。",
-      "libraryId": "Microsoft.EntityFrameworkCore.Relational",
+      "message": "NuclearWeb.Infrastructure depends on Pomelo.EntityFrameworkCore.MySql (>= 9.0.0-preview.2) but Pomelo.EntityFrameworkCore.MySql 9.0.0-preview.2 was not found. Pomelo.EntityFrameworkCore.MySql 9.0.0-preview.2.efcore.9.0.0 was resolved instead.",
+      "libraryId": "Pomelo.EntityFrameworkCore.MySql",
       "targetGraphs": [
         "net9.0"
       ]

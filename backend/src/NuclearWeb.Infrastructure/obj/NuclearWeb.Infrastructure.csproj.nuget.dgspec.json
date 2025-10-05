@@ -1,39 +1,94 @@
 {
   "format": 1,
   "restore": {
-    "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\NuclearWeb.Infrastructure.csproj": {}
+    "/app/src/NuclearWeb.Infrastructure/NuclearWeb.Infrastructure.csproj": {}
   },
   "projects": {
-    "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\NuclearWeb.Infrastructure.csproj": {
+    "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\NuclearWeb.Infrastructure.csproj",
-        "projectName": "NuclearWeb.Infrastructure",
-        "projectPath": "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\NuclearWeb.Infrastructure.csproj",
-        "packagesPath": "C:\\Users\\Howard\\.nuget\\packages\\",
-        "outputPath": "E:\\AITest\\NuclearWeb\\backend\\src\\NuclearWeb.Infrastructure\\obj\\",
+        "projectUniqueName": "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj",
+        "projectName": "NuclearWeb.Core",
+        "projectPath": "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/app/src/NuclearWeb.Core/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Howard\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\DevExpress 20.1.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/root/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net9.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\DevExpress 20.1\\Components\\System\\Components\\Packages": {},
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.300"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "/app/src/NuclearWeb.Infrastructure/NuclearWeb.Infrastructure.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/app/src/NuclearWeb.Infrastructure/NuclearWeb.Infrastructure.csproj",
+        "projectName": "NuclearWeb.Infrastructure",
+        "projectPath": "/app/src/NuclearWeb.Infrastructure/NuclearWeb.Infrastructure.csproj",
+        "packagesPath": "/root/.nuget/packages/",
+        "outputPath": "/app/src/NuclearWeb.Infrastructure/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/root/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj": {
+                "projectPath": "/app/src/NuclearWeb.Core/NuclearWeb.Core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -60,7 +115,7 @@
             },
             "Pomelo.EntityFrameworkCore.MySql": {
               "target": "Package",
-              "version": "[9.0.0-preview.1, )"
+              "version": "[9.0.0-preview.2, )"
             }
           },
           "imports": [
@@ -79,7 +134,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.300/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

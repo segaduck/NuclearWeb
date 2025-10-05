@@ -37,6 +37,18 @@ public class RoomService : IRoomService
         return (items, totalCount);
     }
 
+    public async Task<IEnumerable<MeetingRoom>> GetAllRoomsAsync(bool includeInactive = false)
+    {
+        var query = _context.MeetingRooms.AsQueryable();
+
+        if (!includeInactive)
+        {
+            query = query.Where(r => r.IsActive);
+        }
+
+        return await query.OrderBy(r => r.Name).ToListAsync();
+    }
+
     public async Task<MeetingRoom?> GetRoomByIdAsync(int id)
     {
         return await _context.MeetingRooms.FindAsync(id);
@@ -76,6 +88,19 @@ public class RoomService : IRoomService
         }
 
         // Soft delete
+        room.IsActive = false;
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<bool> DeactivateRoomAsync(int id)
+    {
+        var room = await _context.MeetingRooms.FindAsync(id);
+        if (room == null)
+        {
+            return false;
+        }
+
         room.IsActive = false;
         await _context.SaveChangesAsync();
         return true;

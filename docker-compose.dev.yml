@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  # MySQL Database only for development
+  mysql:
+    image: mysql:8.0
+    container_name: nuclearweb-mysql-dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: nuclearweb
+      MYSQL_USER: nuclearweb_user
+      MYSQL_PASSWORD: password
+      TZ: Asia/Taipei
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+    networks:
+      - nuclearweb-dev
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Backend API for development (with hot reload)
+  backend:
+    image: mcr.microsoft.com/dotnet/sdk:9.0
+    container_name: nuclearweb-backend-dev
+    working_dir: /app
+    command: bash -c "cd src/NuclearWeb.API && dotnet watch run --urls http://0.0.0.0:5000"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:5000
+      ConnectionStrings__DefaultConnection: "Server=mysql;Database=nuclearweb;User=nuclearweb_user;Password=password;"
+      JWT__Secret: dev_jwt_secret_key_2024
+      JWT__Issuer: NuclearWeb
+      JWT__Audience: NuclearWebUsers
+      JWT__ExpiryMinutes: 60
+      JWT__RefreshTokenExpiryDays: 7
+      FileStorage__UploadPath: /app/uploads
+      TZ: Asia/Taipei
+    ports:
+      - "5000:5000"
+    volumes:
+      - type: bind
+        source: C:\Users\Howard\Documents\AITest\NuclearWeb\backend
+        target: /app
+      - backend_dev_uploads:/app/uploads
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - nuclearweb-dev
+
+  # Frontend for development (restart container to see changes)
+  frontend:
+    image: node:20-alpine
+    container_name: nuclearweb-frontend-dev
+    working_dir: /app
+    command: sh -c "npm install && npx vite --host 0.0.0.0 --force --clearScreen false"
+    environment:
+      VITE_API_BASE_URL: http://localhost:5000
+      TZ: Asia/Taipei
+    ports:
+      - "5173:5173"
+    volumes:
+      - type: bind
+        source: C:\Users\Howard\Documents\AITest\NuclearWeb\frontend
+        target: /app
+    depends_on:
+      - backend
+    networks:
+      - nuclearweb-dev
+
+networks:
+  nuclearweb-dev:
+    driver: bridge
+
+volumes:
+  mysql_dev_data:
+    driver: local
+  backend_dev_uploads:
+    driver: local
+  node_modules:

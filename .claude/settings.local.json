@@ -12,9 +12,19 @@
       "Bash(git merge 002-build-an-integrated -m \"$(cat <<''EOF''\nMerge feature 002-build-an-integrated: UI prototypes and design system\n\nComplete Phase 3.0 (UI Prototypes):\n- 3 prototype options with full design specifications\n- Selected Prototype C (Professional/Corporate)\n- Typography-focused design with Noto Sans TC\n- Traditional Chinese (zh-Hant) localization\n- TailwindCSS design tokens\n- API contracts and data models\n- 173 implementation tasks\n\n🤖 Generated with [Claude Code](https://claude.com/claude-code)\n\nCo-Authored-By: Claude <noreply@anthropic.com>\nEOF\n)\")",
       "Bash(git merge:*)",
       "Bash(dotnet new:*)",
-      "Bash(dotnet sln add:*)"
+      "Bash(dotnet sln add:*)",
+      "Bash(start \"E:\\AITest\\NuclearWeb\\specs\\002-build-an-integrated\\prototypes\\meeting-rooms\\prototype-A-calendar-first.html\")",
+      "Bash(start \"E:\\AITest\\NuclearWeb\\specs\\002-build-an-integrated\\prototypes\\meeting-rooms\\prototype-B-list-first.html\")",
+      "Bash(start \"E:\\AITest\\NuclearWeb\\specs\\002-build-an-integrated\\prototypes\\meeting-rooms\\prototype-C-dashboard.html\")"
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "context7",
+    "playwright",
+    "doc-tools-mcp",
+    "excel"
+  ],
+  "enableAllProjectMcpServers": true
 }

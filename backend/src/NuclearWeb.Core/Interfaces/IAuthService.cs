@@ -56,4 +56,13 @@ public interface IAuthService
     /// <param name="passwordHash">雜湊密碼 / Hashed password</param>
     /// <returns>True if password matches; false otherwise</returns>
     bool VerifyPassword(string password, string passwordHash);
+
+    /// <summary>
+    /// 驗證使用者憑證
+    /// Validate user credentials (username and password)
+    /// </summary>
+    /// <param name="username">使用者名稱 / Username</param>
+    /// <param name="password">密碼 / Password</param>
+    /// <returns>User if credentials are valid; null otherwise</returns>
+    Task<User?> ValidateCredentialsAsync(string username, string password);
 }

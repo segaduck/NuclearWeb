@@ -18,17 +18,17 @@ public class ReservationService : IReservationService
         _context = context;
     }
 
-    public async Task<(IEnumerable<Reservation> Items, int TotalCount)> GetReservationsAsync(
-        int page, int pageSize, int? meetingRoomId = null, int? userId = null)
+    public async Task<IEnumerable<Reservation>> GetReservationsAsync(
+        int page, int pageSize, int? roomId = null, int? userId = null, string? status = null, DateTime? startDate = null, DateTime? endDate = null)
     {
         var query = _context.Reservations
             .Include(r => r.MeetingRoom)
             .Include(r => r.User)
             .AsQueryable();
 
-        if (meetingRoomId.HasValue)
+        if (roomId.HasValue)
         {
-            query = query.Where(r => r.MeetingRoomId == meetingRoomId.Value);
+            query = query.Where(r => r.MeetingRoomId == roomId.Value);
         }
 
         if (userId.HasValue)
@@ -36,14 +36,58 @@ public class ReservationService : IReservationService
             query = query.Where(r => r.UserId == userId.Value);
         }
 
-        var totalCount = await query.CountAsync();
-        var items = await query
+        if (!string.IsNullOrEmpty(status) && Enum.TryParse<ReservationStatus>(status, out var statusEnum))
+        {
+            query = query.Where(r => r.Status == statusEnum);
+        }
+
+        if (startDate.HasValue)
+        {
+            query = query.Where(r => r.StartTime >= startDate.Value);
+        }
+
+        if (endDate.HasValue)
+        {
+            query = query.Where(r => r.EndTime <= endDate.Value);
+        }
+
+        return await query
             .OrderByDescending(r => r.StartTime)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync();
+    }
 
-        return (items, totalCount);
+    public async Task<int> GetTotalCountAsync(int? roomId = null, int? userId = null, string? status = null, DateTime? startDate = null, DateTime? endDate = null)
+    {
+        var query = _context.Reservations.AsQueryable();
+
+        if (roomId.HasValue)
+        {
+            query = query.Where(r => r.MeetingRoomId == roomId.Value);
+        }
+
+        if (userId.HasValue)
+        {
+            query = query.Where(r => r.UserId == userId.Value);
+        }
+
+        if (!string.IsNullOrEmpty(status) && Enum.TryParse<ReservationStatus>(status, out var statusEnum))
+        {
+            query = query.Where(r => r.Status == statusEnum);
+        }
+
+        if (startDate.HasValue)
+        {
+            query = query.Where(r => r.StartTime >= startDate.Value);
+        }
+
+        if (endDate.HasValue)
+        {
+            query = query.Where(r => r.EndTime <= endDate.Value);
+        }
+
+        return await query.CountAsync();
     }
 
     public async Task<Reservation?> GetReservationByIdAsync(int id)
@@ -131,7 +175,7 @@ public class ReservationService : IReservationService
         }
 
         // Soft delete by changing status to Cancelled
-        reservation.Status = "Cancelled";
+        reservation.Status = ReservationStatus.Cancelled;
         await _context.SaveChangesAsync();
 
         return true;
@@ -140,7 +184,7 @@ public class ReservationService : IReservationService
     public async Task<bool> CheckAvailabilityAsync(int meetingRoomId, DateTime startTime, DateTime endTime, int? excludeReservationId = null)
     {
         var query = _context.Reservations
-            .Where(r => r.MeetingRoomId == meetingRoomId && r.Status == "Confirmed");
+            .Where(r => r.MeetingRoomId == meetingRoomId && r.Status == ReservationStatus.Confirmed);
 
         if (excludeReservationId.HasValue)
         {
@@ -153,5 +197,50 @@ public class ReservationService : IReservationService
             .AnyAsync(r => !(r.EndTime <= startTime || r.StartTime >= endTime));
 
         return !hasConflict;
+    }
+
+    public async Task<IEnumerable<Reservation>> CheckConflictsAsync(int meetingRoomId, DateTime startTime, DateTime endTime, int? excludeReservationId = null)
+    {
+        var query = _context.Reservations
+            .Include(r => r.MeetingRoom)
+            .Include(r => r.User)
+            .Where(r => r.MeetingRoomId == meetingRoomId && r.Status == ReservationStatus.Confirmed);
+
+        if (excludeReservationId.HasValue)
+        {
+            query = query.Where(r => r.Id != excludeReservationId.Value);
+        }
+
+        // Find overlapping reservations
+        return await query
+            .Where(r => !(r.EndTime <= startTime || r.StartTime >= endTime))
+            .ToListAsync();
+    }
+
+    public async Task<bool> CancelReservationAsync(int id)
+    {
+        var reservation = await _context.Reservations.FindAsync(id);
+        if (reservation == null)
+        {
+            return false;
+        }
+
+        reservation.Status = ReservationStatus.Cancelled;
+        await _context.SaveChangesAsync();
+
+        return true;
+    }
+
+    public async Task<IEnumerable<Reservation>> GetReservationsByRoomAndDateRangeAsync(int roomId, DateTime startDate, DateTime endDate)
+    {
+        return await _context.Reservations
+            .Include(r => r.MeetingRoom)
+            .Include(r => r.User)
+            .Where(r => r.MeetingRoomId == roomId &&
+                       r.Status == ReservationStatus.Confirmed &&
+                       r.StartTime >= startDate &&
+                       r.EndTime <= endDate)
+            .OrderBy(r => r.StartTime)
+            .ToListAsync();
     }
 }

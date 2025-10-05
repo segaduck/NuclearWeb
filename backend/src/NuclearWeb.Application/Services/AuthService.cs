@@ -108,6 +108,19 @@ public class AuthService : IAuthService
         return BCrypt.Net.BCrypt.Verify(password, passwordHash);
     }
 
+    public async Task<User?> ValidateCredentialsAsync(string username, string password)
+    {
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Username == username && u.IsActive);
+
+        if (user == null || !VerifyPassword(password, user.PasswordHash))
+        {
+            return null;
+        }
+
+        return user;
+    }
+
     private string GenerateAccessToken(User user)
     {
         var claims = new[]

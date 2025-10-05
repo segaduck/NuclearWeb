@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>內容管理系統 - Prototype C (卡片網格)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .content-card { transition: transform 0.2s, box-shadow 0.2s; }
+        .content-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Bar -->
+    <nav class="bg-white border-b border-gray-200 px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-black text-gray-900">內容管理</h1>
+            </div>
+            <div class="flex items-center space-x-3">
+                <div class="relative">
+                    <input type="text" placeholder="搜尋內容..." class="w-80 px-4 py-2 pl-10 border border-gray-300 rounded-lg text-sm">
+                    <span class="absolute left-3 top-2.5 text-gray-400">🔍</span>
+                </div>
+                <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>全部分類</option>
+                    <option>最新消息</option>
+                    <option>法規公告</option>
+                    <option>文件資料</option>
+                </select>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">+ 新增內容</button>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-700">管理員</span>
+                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Filter Tabs -->
+    <div class="bg-white border-b border-gray-200 px-6">
+        <div class="flex items-center space-x-1">
+            <button class="px-4 py-3 border-b-2 border-blue-600 text-blue-600 font-bold text-sm">全部 (47)</button>
+            <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm">已發布 (42)</button>
+            <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm">草稿 (3)</button>
+            <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm">待審核 (2)</button>
+            <button class="px-4 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-900 text-sm">已封存 (12)</button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="p-6">
+        <!-- View Options Bar -->
+        <div class="flex items-center justify-between mb-6">
+            <div class="flex items-center space-x-3">
+                <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                    <option>最新優先</option>
+                    <option>最舊優先</option>
+                    <option>瀏覽數最多</option>
+                    <option>標題 A-Z</option>
+                </select>
+                <div class="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
+                    <button class="px-3 py-1 bg-white rounded shadow-sm text-sm font-medium">卡片</button>
+                    <button class="px-3 py-1 text-gray-600 text-sm">列表</button>
+                </div>
+            </div>
+            <div class="text-sm text-gray-600">
+                共 47 筆內容
+            </div>
+        </div>
+
+        <!-- Content Cards Grid -->
+        <div class="grid grid-cols-3 gap-6">
+            <!-- Card 1 - Published -->
+            <div class="content-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-2 bg-green-500"></div>
+                <div class="p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">最新消息</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                    </div>
+
+                    <h3 class="text-lg font-black text-gray-900 mb-2 line-clamp-2">核能安全新規範公告</h3>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">依據最新修訂的核能安全管理規範，本會針對核能設施的安全檢查程序進行了重大更新...</p>
+
+                    <div class="flex items-center justify-between mb-4 text-xs text-gray-500">
+                        <div class="flex items-center space-x-3">
+                            <span>👤 管理員</span>
+                            <span>📅 2025-10-09</span>
+                        </div>
+                        <span>👁️ 1,247</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">核能</span>
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">安全</span>
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">規範</span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
+                        <button class="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">編輯</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">預覽</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">⋯</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2 - Published -->
+            <div class="content-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-2 bg-green-500"></div>
+                <div class="p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">最新消息</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                    </div>
+
+                    <h3 class="text-lg font-black text-gray-900 mb-2 line-clamp-2">2025年度工作報告</h3>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">本年度核安管制工作重點包括設施檢查、輻射監測、緊急應變演練等各項執行成果...</p>
+
+                    <div class="flex items-center justify-between mb-4 text-xs text-gray-500">
+                        <div class="flex items-center space-x-3">
+                            <span>👤 管理員</span>
+                            <span>📅 2025-10-08</span>
+                        </div>
+                        <span>👁️ 856</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">年度報告</span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
+                        <button class="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">編輯</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">預覽</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">⋯</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3 - Draft -->
+            <div class="content-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-2 bg-orange-500"></div>
+                <div class="p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">法規公告</span>
+                        <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full font-medium">草稿</span>
+                    </div>
+
+                    <h3 class="text-lg font-black text-gray-900 mb-2 line-clamp-2">核設施檢查流程更新草案</h3>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">為提升檢查效率，針對現行核設施定期檢查流程進行優化調整，新增智能化監測系統...</p>
+
+                    <div class="flex items-center justify-between mb-4 text-xs text-gray-500">
+                        <div class="flex items-center space-x-3">
+                            <span>👤 管理員</span>
+                            <span>📅 未發布</span>
+                        </div>
+                        <span>👁️ -</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">檢查</span>
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">流程</span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
+                        <button class="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">繼續編輯</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">預覽</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">⋯</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 4 - Published -->
+            <div class="content-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-2 bg-green-500"></div>
+                <div class="p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">法規公告</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                    </div>
+
+                    <h3 class="text-lg font-black text-gray-900 mb-2 line-clamp-2">核能設施管理辦法</h3>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">依據核子反應器設施管制法第六條規定，訂定本辦法以規範核能設施之建造、運轉...</p>
+
+                    <div class="flex items-center justify-between mb-4 text-xs text-gray-500">
+                        <div class="flex items-center space-x-3">
+                            <span>👤 管理員</span>
+                            <span>📅 2025-10-07</span>
+                        </div>
+                        <span>👁️ 2,145</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">法規</span>
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">管理</span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
+                        <button class="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">編輯</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">預覽</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">⋯</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5 - Published -->
+            <div class="content-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-2 bg-green-500"></div>
+                <div class="p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">法規公告</span>
+                        <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                    </div>
+
+                    <h3 class="text-lg font-black text-gray-900 mb-2 line-clamp-2">輻射安全標準修訂說明</h3>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">配合國際輻射防護委員會最新建議，更新我國輻射防護標準，確保民眾健康安全...</p>
+
+                    <div class="flex items-center justify-between mb-4 text-xs text-gray-500">
+                        <div class="flex items-center space-x-3">
+                            <span>👤 管理員</span>
+                            <span>📅 2025-10-06</span>
+                        </div>
+                        <span>👁️ 1,523</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">輻射</span>
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">安全</span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
+                        <button class="flex-1 px-3 py-2 bg-blue-600 text-white rounded text-sm font-medium hover:bg-blue-700">編輯</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">預覽</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">⋯</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 6 - Pending Review -->
+            <div class="content-card bg-white rounded-xl shadow-md overflow-hidden">
+                <div class="h-2 bg-yellow-500"></div>
+                <div class="p-5">
+                    <div class="flex items-start justify-between mb-3">
+                        <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">文件資料</span>
+                        <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full font-medium">待審核</span>
+                    </div>
+
+                    <h3 class="text-lg font-black text-gray-900 mb-2 line-clamp-2">檢測報告2025-Q1</h3>
+                    <p class="text-sm text-gray-600 mb-4 line-clamp-3">2025年第一季度核能設施安全檢測報告，涵蓋各項設備運作狀況、輻射監測數據...</p>
+
+                    <div class="flex items-center justify-between mb-4 text-xs text-gray-500">
+                        <div class="flex items-center space-x-3">
+                            <span>👤 管理員</span>
+                            <span>📅 待審核</span>
+                        </div>
+                        <span>👁️ -</span>
+                    </div>
+
+                    <div class="flex flex-wrap gap-1.5 mb-4">
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">報告</span>
+                        <span class="px-2 py-0.5 bg-gray-100 text-gray-700 text-xs rounded">檢測</span>
+                    </div>
+
+                    <div class="flex items-center space-x-2 pt-3 border-t border-gray-200">
+                        <button class="flex-1 px-3 py-2 bg-green-600 text-white rounded text-sm font-medium hover:bg-green-700">核准</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">編輯</button>
+                        <button class="px-3 py-2 bg-gray-100 rounded text-sm hover:bg-gray-200">⋯</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Load More -->
+        <div class="mt-8 text-center">
+            <button class="px-6 py-3 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">載入更多內容</button>
+        </div>
+
+        <!-- Stats Dashboard -->
+        <div class="grid grid-cols-5 gap-4 mt-8">
+            <div class="bg-gradient-to-br from-blue-500 to-blue-600 text-white p-4 rounded-xl shadow-lg">
+                <p class="text-xs opacity-90">總內容數</p>
+                <p class="text-3xl font-black mt-1">47</p>
+            </div>
+            <div class="bg-gradient-to-br from-green-500 to-green-600 text-white p-4 rounded-xl shadow-lg">
+                <p class="text-xs opacity-90">已發布</p>
+                <p class="text-3xl font-black mt-1">42</p>
+            </div>
+            <div class="bg-gradient-to-br from-orange-500 to-orange-600 text-white p-4 rounded-xl shadow-lg">
+                <p class="text-xs opacity-90">草稿</p>
+                <p class="text-3xl font-black mt-1">3</p>
+            </div>
+            <div class="bg-gradient-to-br from-yellow-500 to-yellow-600 text-white p-4 rounded-xl shadow-lg">
+                <p class="text-xs opacity-90">待審核</p>
+                <p class="text-3xl font-black mt-1">2</p>
+            </div>
+            <div class="bg-gradient-to-br from-purple-500 to-purple-600 text-white p-4 rounded-xl shadow-lg">
+                <p class="text-xs opacity-90">本月新增</p>
+                <p class="text-3xl font-black mt-1">12</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

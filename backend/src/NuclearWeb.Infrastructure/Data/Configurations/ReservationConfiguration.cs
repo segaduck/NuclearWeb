@@ -36,8 +36,8 @@ public class ReservationConfiguration : IEntityTypeConfiguration<Reservation>
 
         builder.Property(r => r.Status)
             .IsRequired()
-            .HasMaxLength(20)
-            .HasDefaultValue("Confirmed");
+            .HasConversion<string>()
+            .HasDefaultValue(ReservationStatus.Confirmed);
 
         builder.Property(r => r.CreatedAt)
             .IsRequired();

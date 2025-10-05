@@ -123,14 +123,55 @@ fontWeight:
 - Border-right: 1px solid
 - Active item: Blue left border
 
+## CMS Module Design
+
+**Selected Approach**: Integrated Multi-View Design (cms-integrated.html)
+
+The CMS module combines three design patterns:
+
+1. **Card View** (Default):
+   - Pinterest-style grid layout with content preview cards
+   - Stats dashboard at top (總內容數, 已發布, 草稿, 待審核, 本月新增)
+   - Filter tabs below stats (全部, 已發布, 草稿, 待審核, 已封存)
+   - Rich content preview with tags, metadata, and quick actions
+
+2. **List View** (Switchable):
+   - Traditional table layout for efficient bulk operations
+   - Same stats dashboard and filter tabs
+   - Comprehensive columns: title, category, status, author, date, views
+   - Batch selection and pagination
+
+3. **Editor Modal** (Full-Screen Overlay):
+   - Opens from both Card and List views
+   - Complete rich text editor with TipTap
+   - Right sidebar with properties, SEO settings, version history
+   - Attachment management
+   - Close returns to previous view
+
+**Location**: `specs/002-build-an-integrated/prototypes/cms/cms-integrated.html`
+
+## Meeting Rooms Module Design
+
+**Selected Approach**: Prototype B Enhanced (List-First with Weekly View)
+
+Features:
+- Room status cards on left sidebar (using Prototype C card design)
+- Daily list view with time slots (default)
+- Weekly grid view (switchable)
+- Collapsible filters
+- Meeting room dropdown selector
+
+**Location**: `specs/002-build-an-integrated/prototypes/meeting-rooms/prototype-B-list-first.html`
+
 ## Next Steps
 
 1. ✅ Document decision (this file)
-2. 🔄 Create nuclear power image options (3 variants)
-3. 🔄 Extract design tokens to TailwindCSS config
-4. 🔄 Add Traditional Chinese i18n infrastructure
-5. ⏳ Update plan.md and tasks.md with language requirements
-6. ⏳ Begin Phase 3.1 implementation
+2. ✅ Confirm CMS integrated prototype
+3. ✅ Confirm Meeting Rooms prototype B enhanced
+4. 🔄 Extract design tokens to TailwindCSS config
+5. 🔄 Add Traditional Chinese i18n infrastructure
+6. ⏳ Update plan.md and tasks.md with language requirements
+7. ⏳ Begin Phase 3.1 implementation
 
 ## Validation Criteria
 
@@ -138,9 +179,10 @@ Design decision is successful if:
 - Users find the interface professional and trustworthy
 - Information density supports efficient workflows
 - Traditional Chinese text displays correctly with proper fonts
-- Nuclear power imagery reinforces brand identity
+- CMS module supports both visual browsing and data management workflows
+- Meeting Rooms module provides clear availability overview
 - Interface feels familiar to enterprise users
 
 ---
 
-**Status**: Decision documented, awaiting image selection and token extraction
+**Status**: ✅ All prototypes confirmed and documented. Ready for implementation (Phase 3.5+)

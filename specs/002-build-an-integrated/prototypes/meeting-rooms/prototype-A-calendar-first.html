@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>會議室預約 - Prototype A (行事曆優先)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .calendar-cell { min-height: 100px; border: 1px solid #e5e7eb; }
+        .reservation { background: #3b82f6; color: white; padding: 4px 8px; border-radius: 4px; font-size: 12px; margin: 2px 0; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Navigation Bar -->
+    <nav class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-4">
+            <h1 class="text-2xl font-black text-gray-900">會議室預約系統</h1>
+            <div class="flex space-x-2">
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">今天</button>
+                <button class="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">←</button>
+                <button class="p-2 border border-gray-300 rounded-lg hover:bg-gray-50">→</button>
+                <span class="px-4 py-2 text-lg font-bold text-gray-900">2025年10月</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <select class="border border-gray-300 rounded-lg px-3 py-2">
+                <option>月檢視</option>
+                <option>週檢視</option>
+                <option>日檢視</option>
+            </select>
+            <button class="px-4 py-2 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700">+ 新增預約</button>
+            <div class="flex items-center space-x-2">
+                <span class="text-sm text-gray-700">管理員</span>
+                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">A</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex h-[calc(100vh-73px)]">
+        <!-- Compact Left Sidebar -->
+        <aside class="w-64 bg-white border-r border-gray-200 p-4 overflow-y-auto">
+            <div class="mb-6">
+                <h3 class="text-sm font-bold text-gray-900 mb-3">會議室篩選</h3>
+                <div class="space-y-2">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">大會議室 (20人)</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">小會議室 (8人)</span>
+                    </label>
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" checked class="w-4 h-4 text-blue-600 rounded">
+                        <span class="text-sm text-gray-700">討論室 (4人)</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-sm font-bold text-gray-900 mb-3">我的預約</h3>
+                <div class="space-y-2">
+                    <div class="p-3 bg-blue-50 rounded-lg border-l-4 border-blue-600">
+                        <p class="text-sm font-medium text-gray-900">月會</p>
+                        <p class="text-xs text-gray-600">10/15 14:00-16:00</p>
+                        <p class="text-xs text-gray-500">大會議室</p>
+                    </div>
+                    <div class="p-3 bg-green-50 rounded-lg border-l-4 border-green-600">
+                        <p class="text-sm font-medium text-gray-900">專案討論</p>
+                        <p class="text-xs text-gray-600">10/18 10:00-11:30</p>
+                        <p class="text-xs text-gray-500">小會議室</p>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <h3 class="text-sm font-bold text-gray-900 mb-3">圖例</h3>
+                <div class="space-y-1">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-4 h-4 bg-blue-600 rounded"></div>
+                        <span class="text-xs text-gray-600">我的預約</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <div class="w-4 h-4 bg-gray-400 rounded"></div>
+                        <span class="text-xs text-gray-600">其他預約</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Large Calendar Area -->
+        <main class="flex-1 p-6 overflow-y-auto">
+            <div class="bg-white rounded-lg shadow-md p-4">
+                <!-- Calendar Header -->
+                <div class="grid grid-cols-7 gap-2 mb-2">
+                    <div class="text-center text-sm font-bold text-gray-700 py-2">週日</div>
+                    <div class="text-center text-sm font-bold text-gray-700 py-2">週一</div>
+                    <div class="text-center text-sm font-bold text-gray-700 py-2">週二</div>
+                    <div class="text-center text-sm font-bold text-gray-700 py-2">週三</div>
+                    <div class="text-center text-sm font-bold text-gray-700 py-2">週四</div>
+                    <div class="text-center text-sm font-bold text-gray-700 py-2">週五</div>
+                    <div class="text-center text-sm font-bold text-gray-700 py-2">週六</div>
+                </div>
+
+                <!-- Calendar Grid -->
+                <div class="grid grid-cols-7 gap-2">
+                    <!-- Week 1 -->
+                    <div class="calendar-cell p-2 bg-gray-50">
+                        <div class="text-sm text-gray-400">29</div>
+                    </div>
+                    <div class="calendar-cell p-2 bg-gray-50">
+                        <div class="text-sm text-gray-400">30</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">1</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">2</div>
+                        <div class="reservation">10:00 專案會議</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">3</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">4</div>
+                        <div class="reservation">14:00 客戶簡報</div>
+                        <div class="reservation bg-gray-400">16:00 內部會議</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">5</div>
+                    </div>
+
+                    <!-- Week 2 -->
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">6</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">7</div>
+                        <div class="reservation">09:00 晨會</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">8</div>
+                    </div>
+                    <div class="calendar-cell p-2 bg-blue-50 border-2 border-blue-600">
+                        <div class="text-sm font-bold text-blue-600">9 (今天)</div>
+                        <div class="reservation">11:00 技術討論</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">10</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">11</div>
+                        <div class="reservation bg-gray-400">13:30 訓練課程</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">12</div>
+                    </div>
+
+                    <!-- Week 3 -->
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">13</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">14</div>
+                        <div class="reservation">09:00 部門會議</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">15</div>
+                        <div class="reservation">14:00 月會</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">16</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">17</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">18</div>
+                        <div class="reservation">10:00 專案討論</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">19</div>
+                    </div>
+
+                    <!-- Week 4 -->
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">20</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">21</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">22</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">23</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">24</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">25</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">26</div>
+                    </div>
+
+                    <!-- Week 5 -->
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">27</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">28</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">29</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">30</div>
+                    </div>
+                    <div class="calendar-cell p-2">
+                        <div class="text-sm font-medium text-gray-900">31</div>
+                    </div>
+                    <div class="calendar-cell p-2 bg-gray-50">
+                        <div class="text-sm text-gray-400">1</div>
+                    </div>
+                    <div class="calendar-cell p-2 bg-gray-50">
+                        <div class="text-sm text-gray-400">2</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-3 gap-4 mt-6">
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <p class="text-sm text-gray-600">本月預約</p>
+                    <p class="text-3xl font-black text-blue-600">24</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <p class="text-sm text-gray-600">今日預約</p>
+                    <p class="text-3xl font-black text-green-600">3</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow-md">
+                    <p class="text-sm text-gray-600">可用會議室</p>
+                    <p class="text-3xl font-black text-gray-900">2/3</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>內容管理系統 - Prototype B (表格列表)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans TC', sans-serif; }
+        .table-row { transition: background 0.2s; }
+        .table-row:hover { background: #f9fafb; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Bar -->
+    <nav class="bg-white border-b border-gray-200 px-6 py-4">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <h1 class="text-2xl font-black text-gray-900">內容管理</h1>
+                <div class="flex space-x-2">
+                    <button class="px-3 py-1.5 bg-blue-600 text-white rounded text-sm font-medium">全部</button>
+                    <button class="px-3 py-1.5 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">最新消息</button>
+                    <button class="px-3 py-1.5 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">法規公告</button>
+                    <button class="px-3 py-1.5 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">文件資料</button>
+                    <button class="px-3 py-1.5 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">草稿</button>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3">
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">+ 新增內容</button>
+                <div class="flex items-center space-x-2">
+                    <span class="text-sm text-gray-700">管理員</span>
+                    <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold">A</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="p-6">
+        <!-- Filters & Search Bar -->
+        <div class="bg-white rounded-lg shadow-md mb-4">
+            <div class="px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <input type="text" placeholder="搜尋標題、內容或作者..." class="w-96 px-4 py-2 border border-gray-300 rounded-lg text-sm">
+                    <select class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                        <option>所有狀態</option>
+                        <option>已發布</option>
+                        <option>草稿</option>
+                        <option>待審核</option>
+                        <option>已封存</option>
+                    </select>
+                    <input type="date" class="border border-gray-300 rounded-lg px-3 py-2 text-sm">
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-sm">篩選</button>
+                    <button class="px-3 py-2 bg-gray-100 rounded hover:bg-gray-200 text-sm">匯出</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Table -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Table Header -->
+            <div class="bg-gray-50 border-b border-gray-200 px-6 py-3 flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <input type="checkbox" class="w-4 h-4 rounded">
+                    <span class="text-xs font-bold text-gray-700">已選擇 0 項</span>
+                    <button class="text-xs text-blue-600 hover:underline">全選</button>
+                    <button class="text-xs text-red-600 hover:underline">刪除選取</button>
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs text-gray-600">顯示</span>
+                    <select class="border border-gray-300 rounded px-2 py-1 text-xs">
+                        <option>20</option>
+                        <option>50</option>
+                        <option>100</option>
+                    </select>
+                    <span class="text-xs text-gray-600">筆</span>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <table class="w-full">
+                <thead class="bg-gray-100 border-b border-gray-200">
+                    <tr>
+                        <th class="px-6 py-3 text-left">
+                            <input type="checkbox" class="w-4 h-4 rounded">
+                        </th>
+                        <th class="px-6 py-3 text-left text-xs font-black text-gray-700">標題</th>
+                        <th class="px-6 py-3 text-left text-xs font-black text-gray-700">分類</th>
+                        <th class="px-6 py-3 text-left text-xs font-black text-gray-700">狀態</th>
+                        <th class="px-6 py-3 text-left text-xs font-black text-gray-700">作者</th>
+                        <th class="px-6 py-3 text-left text-xs font-black text-gray-700">發布日期</th>
+                        <th class="px-6 py-3 text-left text-xs font-black text-gray-700">瀏覽</th>
+                        <th class="px-6 py-3 text-left text-xs font-black text-gray-700">操作</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-200">
+                    <!-- Row 1 -->
+                    <tr class="table-row">
+                        <td class="px-6 py-4">
+                            <input type="checkbox" class="w-4 h-4 rounded">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-lg">📄</span>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">核能安全新規範公告</p>
+                                    <p class="text-xs text-gray-500">最後編輯：2025-10-09 14:30</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">最新消息</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">管理員</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">2025-10-09</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">1,247</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <button class="text-xs text-blue-600 hover:underline">編輯</button>
+                                <button class="text-xs text-gray-600 hover:underline">預覽</button>
+                                <button class="text-xs text-red-600 hover:underline">刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 2 -->
+                    <tr class="table-row">
+                        <td class="px-6 py-4">
+                            <input type="checkbox" class="w-4 h-4 rounded">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-lg">📄</span>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">2025年度工作報告</p>
+                                    <p class="text-xs text-gray-500">最後編輯：2025-10-08 16:20</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">最新消息</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">管理員</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">2025-10-08</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">856</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <button class="text-xs text-blue-600 hover:underline">編輯</button>
+                                <button class="text-xs text-gray-600 hover:underline">預覽</button>
+                                <button class="text-xs text-red-600 hover:underline">刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 3 - Draft -->
+                    <tr class="table-row bg-orange-50">
+                        <td class="px-6 py-4">
+                            <input type="checkbox" class="w-4 h-4 rounded">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-lg">📝</span>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">核設施檢查流程更新草案</p>
+                                    <p class="text-xs text-gray-500">最後編輯：2025-10-09 11:45</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">法規公告</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-orange-100 text-orange-700 text-xs rounded-full font-medium">草稿</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">管理員</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-400">-</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-400">-</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <button class="text-xs text-blue-600 hover:underline">編輯</button>
+                                <button class="text-xs text-gray-600 hover:underline">預覽</button>
+                                <button class="text-xs text-red-600 hover:underline">刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 4 -->
+                    <tr class="table-row">
+                        <td class="px-6 py-4">
+                            <input type="checkbox" class="w-4 h-4 rounded">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-lg">📄</span>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">核能設施管理辦法</p>
+                                    <p class="text-xs text-gray-500">最後編輯：2025-10-07 09:15</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">法規公告</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">管理員</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">2025-10-07</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">2,145</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <button class="text-xs text-blue-600 hover:underline">編輯</button>
+                                <button class="text-xs text-gray-600 hover:underline">預覽</button>
+                                <button class="text-xs text-red-600 hover:underline">刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 5 -->
+                    <tr class="table-row">
+                        <td class="px-6 py-4">
+                            <input type="checkbox" class="w-4 h-4 rounded">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-lg">📄</span>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">輻射安全標準修訂說明</p>
+                                    <p class="text-xs text-gray-500">最後編輯：2025-10-06 14:30</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-purple-100 text-purple-700 text-xs rounded-full font-medium">法規公告</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">已發布</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">管理員</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">2025-10-06</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">1,523</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <button class="text-xs text-blue-600 hover:underline">編輯</button>
+                                <button class="text-xs text-gray-600 hover:underline">預覽</button>
+                                <button class="text-xs text-red-600 hover:underline">刪除</button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Row 6 - Pending -->
+                    <tr class="table-row bg-yellow-50">
+                        <td class="px-6 py-4">
+                            <input type="checkbox" class="w-4 h-4 rounded">
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-lg">📄</span>
+                                <div>
+                                    <p class="text-sm font-bold text-gray-900">檢測報告2025-Q1</p>
+                                    <p class="text-xs text-gray-500">最後編輯：2025-10-09 08:30</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-gray-100 text-gray-700 text-xs rounded-full font-medium">文件資料</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <span class="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full font-medium">待審核</span>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-900">管理員</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-400">-</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <p class="text-sm text-gray-400">-</p>
+                        </td>
+                        <td class="px-6 py-4">
+                            <div class="flex items-center space-x-2">
+                                <button class="text-xs text-blue-600 hover:underline">編輯</button>
+                                <button class="text-xs text-green-600 hover:underline">核准</button>
+                                <button class="text-xs text-red-600 hover:underline">拒絕</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Pagination -->
+            <div class="bg-gray-50 border-t border-gray-200 px-6 py-4 flex items-center justify-between">
+                <div class="text-sm text-gray-600">
+                    顯示 1-6 筆，共 47 筆
+                </div>
+                <div class="flex items-center space-x-2">
+                    <button class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50 disabled:opacity-50" disabled>上一頁</button>
+                    <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm font-medium">1</button>
+                    <button class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">2</button>
+                    <button class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">3</button>
+                    <span class="text-gray-500">...</span>
+                    <button class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">8</button>
+                    <button class="px-3 py-1 bg-white border border-gray-300 rounded text-sm hover:bg-gray-50">下一頁</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-4 gap-4 mt-6">
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <p class="text-xs text-gray-600">總內容數</p>
+                <p class="text-3xl font-black text-gray-900">47</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <p class="text-xs text-gray-600">已發布</p>
+                <p class="text-3xl font-black text-green-600">42</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <p class="text-xs text-gray-600">草稿</p>
+                <p class="text-3xl font-black text-orange-600">3</p>
+            </div>
+            <div class="bg-white p-4 rounded-lg shadow-md">
+                <p class="text-xs text-gray-600">待審核</p>
+                <p class="text-3xl font-black text-yellow-600">2</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

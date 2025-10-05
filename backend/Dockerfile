@@ -5,15 +5,14 @@
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
-# Copy solution and project files
-COPY ["NuclearWeb.sln", "./"]
+# Copy project files
 COPY ["src/NuclearWeb.API/NuclearWeb.API.csproj", "src/NuclearWeb.API/"]
 COPY ["src/NuclearWeb.Core/NuclearWeb.Core.csproj", "src/NuclearWeb.Core/"]
 COPY ["src/NuclearWeb.Infrastructure/NuclearWeb.Infrastructure.csproj", "src/NuclearWeb.Infrastructure/"]
 COPY ["src/NuclearWeb.Application/NuclearWeb.Application.csproj", "src/NuclearWeb.Application/"]
 
 # Restore dependencies
-RUN dotnet restore "NuclearWeb.sln"
+RUN dotnet restore "src/NuclearWeb.API/NuclearWeb.API.csproj"
 
 # Copy all source files
 COPY . .

@@ -15,6 +15,7 @@
     "@fullcalendar/timegrid": "^6.1.19",
     "@fullcalendar/vue3": "^6.1.19",
     "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.2.0",
     "@tiptap/starter-kit": "^3.6.5",
     "@tiptap/vue-3": "^3.6.5",
     "autoprefixer": "^10.4.21",
@@ -27,9 +28,12 @@
     "vue-router": "^4.5.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@tailwindcss/postcss": "^4.1.14",
     "@types/node": "^24.6.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "playwright": "^1.55.1",
     "typescript": "~5.9.3",
     "vite": "^7.1.7",
     "vue-tsc": "^3.1.0"
