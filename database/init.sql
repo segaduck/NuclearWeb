@@ -197,11 +197,11 @@ COMMENT='刷新權杖資料表 - JWT認證的刷新權杖';
 -- =============================================================================
 
 -- Insert default admin user
--- Password: Admin@123 (bcrypt hash with cost factor 12)
+-- Password: Admin@123 (bcrypt hash with cost factor 11, generated with BCrypt.Net-Next 4.0.3)
 INSERT INTO `Users` (`Username`, `PasswordHash`, `DisplayName`, `Email`, `Role`, `IsActive`)
 VALUES
-('admin', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYPdx7wO2Wi', '系統管理員', 'admin@nuclearweb.local', 'Admin', TRUE),
-('user1', '$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewY5GyYPdx7wO2Wi', '測試使用者', 'user1@nuclearweb.local', 'User', TRUE)
+('admin', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '系統管理員', 'admin@nuclearweb.local', 'Admin', TRUE),
+('user1', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '測試使用者', 'user1@nuclearweb.local', 'User', TRUE)
 ON DUPLICATE KEY UPDATE `Username` = `Username`;
 
 -- Insert sample meeting rooms
@@ -212,6 +212,22 @@ VALUES
 ('會議室C', 12, '2樓', JSON_ARRAY('投影機', '白板', '視訊會議設備'), TRUE),
 ('訓練教室D', 30, '3樓', JSON_ARRAY('投影機', '白板', '音響設備'), TRUE)
 ON DUPLICATE KEY UPDATE `Name` = `Name`;
+
+-- Insert sample reservations (matching prototype examples)
+INSERT INTO `Reservations` (`MeetingRoomId`, `UserId`, `StartTime`, `EndTime`, `Purpose`, `AttendeeCount`, `Status`, `CreatedBy`)
+VALUES
+-- Today's reservations
+(1, 1, DATE_ADD(CURDATE(), INTERVAL 15 HOUR), DATE_ADD(CURDATE(), INTERVAL 16 HOUR), '客戶簡報', 15, 'Confirmed', 1),
+(2, 2, DATE_ADD(CURDATE(), INTERVAL 13 HOUR), DATE_ADD(CURDATE(), INTERVAL 15 HOUR), '專案進度檢討', 6, 'Confirmed', 2),
+(3, 1, DATE_ADD(CURDATE(), INTERVAL 10 HOUR), DATE_ADD(CURDATE(), INTERVAL 11 HOUR), '週會', 8, 'Confirmed', 1),
+-- Tomorrow's reservations
+(1, 2, DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 9 HOUR), DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 10 HOUR), '團隊會議', 12, 'Confirmed', 2),
+(2, 1, DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 14 HOUR), DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 15 HOUR), '技術討論', 5, 'Confirmed', 1),
+(4, 2, DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 13 HOUR), DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 17 HOUR), '員工訓練', 25, 'Confirmed', 2),
+-- Next week reservations
+(1, 1, DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 10 HOUR), DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 12 HOUR), '月度審查會議', 18, 'Confirmed', 1),
+(3, 2, DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 14 HOUR), DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 16 HOUR), '專案啟動會議', 10, 'Confirmed', 2)
+ON DUPLICATE KEY UPDATE `Purpose` = `Purpose`;
 
 -- Insert sample content articles
 INSERT INTO `ContentArticles` (`Title`, `Content`, `AuthorId`, `PublicationStatus`, `AvailableFrom`, `PublishedAt`, `PublishedBy`)
