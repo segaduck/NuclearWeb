@@ -155,6 +155,7 @@ interface Props {
   open: boolean
   reservation?: Reservation | null
   selectedDate?: Date | null
+  selectedRoomId?: number | null
 }
 
 const props = defineProps<Props>()
@@ -195,12 +196,17 @@ watch(() => props.open, (isOpen) => {
         purpose: props.reservation.purpose || '',
         attendeeCount: props.reservation.attendeeCount,
       }
-    } else if (props.selectedDate) {
-      // 新增模式：使用選擇的日期
-      const start = new Date(props.selectedDate)
-      const end = new Date(start.getTime() + 60 * 60 * 1000) // 預設1小時
-      formData.value.startTime = formatDateTimeLocal(start)
-      formData.value.endTime = formatDateTimeLocal(end)
+    } else {
+      // 新增模式
+      if (props.selectedRoomId) {
+        formData.value.meetingRoomId = props.selectedRoomId
+      }
+      if (props.selectedDate) {
+        const start = new Date(props.selectedDate)
+        const end = new Date(start.getTime() + 60 * 60 * 1000) // 預設1小時
+        formData.value.startTime = formatDateTimeLocal(start)
+        formData.value.endTime = formatDateTimeLocal(end)
+      }
     }
   }
 })
