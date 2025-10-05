@@ -201,7 +201,11 @@ COMMENT='刷新權杖資料表 - JWT認證的刷新權杖';
 INSERT INTO `Users` (`Username`, `PasswordHash`, `DisplayName`, `Email`, `Role`, `IsActive`)
 VALUES
 ('admin', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '系統管理員', 'admin@nuclearweb.local', 'Admin', TRUE),
-('user1', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '測試使用者', 'user1@nuclearweb.local', 'User', TRUE)
+('user1', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '測試使用者', 'user1@nuclearweb.local', 'User', TRUE),
+('李主管', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '李主管', 'lee@nuclearweb.local', 'User', TRUE),
+('王經理', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '王經理', 'wang@nuclearweb.local', 'User', TRUE),
+('張組長', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '張組長', 'chang@nuclearweb.local', 'User', TRUE),
+('陳工程師', '$2a$11$JiUUXtMAzuFufhKNBdV88.0DCveoFU1jUKZ1UfTqWK9G3iGB6n3kG', '陳工程師', 'chen@nuclearweb.local', 'User', TRUE)
 ON DUPLICATE KEY UPDATE `Username` = `Username`;
 
 -- Insert sample meeting rooms
@@ -213,20 +217,45 @@ VALUES
 ('訓練教室D', 30, '3樓', JSON_ARRAY('投影機', '白板', '音響設備'), TRUE)
 ON DUPLICATE KEY UPDATE `Name` = `Name`;
 
--- Insert sample reservations (matching prototype examples)
+-- Insert sample reservations (matching prototype examples with realistic daily schedule)
+-- User IDs: 1=admin, 2=user1, 3=李主管, 4=王經理, 5=張組長, 6=陳工程師
 INSERT INTO `Reservations` (`MeetingRoomId`, `UserId`, `StartTime`, `EndTime`, `Purpose`, `AttendeeCount`, `Status`, `CreatedBy`)
 VALUES
--- Today's reservations
-(1, 1, DATE_ADD(CURDATE(), INTERVAL 15 HOUR), DATE_ADD(CURDATE(), INTERVAL 16 HOUR), '客戶簡報', 15, 'Confirmed', 1),
-(2, 2, DATE_ADD(CURDATE(), INTERVAL 13 HOUR), DATE_ADD(CURDATE(), INTERVAL 15 HOUR), '專案進度檢討', 6, 'Confirmed', 2),
+-- Today's reservations (Full day schedule 8:00-18:00)
+-- Morning (8:00-12:00)
+(1, 5, DATE_ADD(CURDATE(), INTERVAL 8 HOUR), DATE_ADD(CURDATE(), INTERVAL 9 HOUR), '晨會', 15, 'Confirmed', 5),
+(2, 6, DATE_ADD(CURDATE(), INTERVAL 9 HOUR), DATE_ADD(CURDATE(), INTERVAL 10 HOUR), '技術研討', 6, 'Confirmed', 6),
 (3, 1, DATE_ADD(CURDATE(), INTERVAL 10 HOUR), DATE_ADD(CURDATE(), INTERVAL 11 HOUR), '週會', 8, 'Confirmed', 1),
+(4, 4, DATE_ADD(CURDATE(), INTERVAL 8 HOUR + INTERVAL 30 MINUTE), DATE_ADD(CURDATE(), INTERVAL 10 HOUR + INTERVAL 30 MINUTE), '新人訓練', 20, 'Confirmed', 4),
+(1, 3, DATE_ADD(CURDATE(), INTERVAL 10 HOUR), DATE_ADD(CURDATE(), INTERVAL 11 HOUR + INTERVAL 30 MINUTE), '部門報告', 12, 'Confirmed', 3),
+
+-- Afternoon - Currently happening (13:00-15:00)
+(2, 4, DATE_ADD(CURDATE(), INTERVAL 13 HOUR), DATE_ADD(CURDATE(), INTERVAL 15 HOUR), '專案進度檢討', 6, 'Confirmed', 4),
+(3, 5, DATE_ADD(CURDATE(), INTERVAL 14 HOUR), DATE_ADD(CURDATE(), INTERVAL 15 HOUR + INTERVAL 30 MINUTE), '預算會議', 10, 'Confirmed', 5),
+
+-- Later today - Next meetings (15:00-18:00)
+(1, 3, DATE_ADD(CURDATE(), INTERVAL 15 HOUR), DATE_ADD(CURDATE(), INTERVAL 16 HOUR), '客戶簡報', 15, 'Confirmed', 3),
+(4, 2, DATE_ADD(CURDATE(), INTERVAL 15 HOUR + INTERVAL 30 MINUTE), DATE_ADD(CURDATE(), INTERVAL 17 HOUR), '安全審查', 25, 'Confirmed', 2),
+(2, 6, DATE_ADD(CURDATE(), INTERVAL 16 HOUR), DATE_ADD(CURDATE(), INTERVAL 17 HOUR), '系統維護討論', 5, 'Confirmed', 6),
+(3, 1, DATE_ADD(CURDATE(), INTERVAL 16 HOUR + INTERVAL 30 MINUTE), DATE_ADD(CURDATE(), INTERVAL 18 HOUR), '月度總結', 12, 'Confirmed', 1),
+
 -- Tomorrow's reservations
 (1, 2, DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 9 HOUR), DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 10 HOUR), '團隊會議', 12, 'Confirmed', 2),
 (2, 1, DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 14 HOUR), DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 15 HOUR), '技術討論', 5, 'Confirmed', 1),
+(3, 3, DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 10 HOUR), DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 12 HOUR), '設計評審', 10, 'Confirmed', 3),
 (4, 2, DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 13 HOUR), DATE_ADD(CURDATE(), INTERVAL 1 DAY + INTERVAL 17 HOUR), '員工訓練', 25, 'Confirmed', 2),
+
+-- This week (next 2-6 days)
+(1, 4, DATE_ADD(CURDATE(), INTERVAL 2 DAY + INTERVAL 10 HOUR), DATE_ADD(CURDATE(), INTERVAL 2 DAY + INTERVAL 11 HOUR + INTERVAL 30 MINUTE), '供應商會議', 8, 'Confirmed', 4),
+(2, 5, DATE_ADD(CURDATE(), INTERVAL 3 DAY + INTERVAL 14 HOUR), DATE_ADD(CURDATE(), INTERVAL 3 DAY + INTERVAL 16 HOUR), '品質檢討', 6, 'Confirmed', 5),
+(3, 6, DATE_ADD(CURDATE(), INTERVAL 4 DAY + INTERVAL 9 HOUR), DATE_ADD(CURDATE(), INTERVAL 4 DAY + INTERVAL 10 HOUR), '技術分享', 12, 'Confirmed', 6),
+(4, 1, DATE_ADD(CURDATE(), INTERVAL 5 DAY + INTERVAL 13 HOUR), DATE_ADD(CURDATE(), INTERVAL 5 DAY + INTERVAL 15 HOUR), '緊急應變演練', 30, 'Confirmed', 1),
+
 -- Next week reservations
 (1, 1, DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 10 HOUR), DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 12 HOUR), '月度審查會議', 18, 'Confirmed', 1),
-(3, 2, DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 14 HOUR), DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 16 HOUR), '專案啟動會議', 10, 'Confirmed', 2)
+(3, 2, DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 14 HOUR), DATE_ADD(CURDATE(), INTERVAL 7 DAY + INTERVAL 16 HOUR), '專案啟動會議', 10, 'Confirmed', 2),
+(2, 3, DATE_ADD(CURDATE(), INTERVAL 8 DAY + INTERVAL 9 HOUR), DATE_ADD(CURDATE(), INTERVAL 8 DAY + INTERVAL 11 HOUR), '策略規劃', 8, 'Confirmed', 3),
+(4, 4, DATE_ADD(CURDATE(), INTERVAL 9 DAY + INTERVAL 15 HOUR), DATE_ADD(CURDATE(), INTERVAL 9 DAY + INTERVAL 17 HOUR), '教育訓練', 28, 'Confirmed', 4)
 ON DUPLICATE KEY UPDATE `Purpose` = `Purpose`;
 
 -- Insert sample content articles
