@@ -346,6 +346,8 @@ const timeSlots = [
 
 // Computed
 const filteredRooms = computed(() => {
+  if (!roomsStore.rooms) return []
+
   let rooms = roomsStore.rooms.filter(r => r.isActive)
 
   if (filters.value.onlyAvailable) {
@@ -609,7 +611,7 @@ async function loadData() {
       reservationsStore.fetchReservations({
         startDate: new Date(currentDate.value.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString(),
         endDate: new Date(currentDate.value.getTime() + 14 * 24 * 60 * 60 * 1000).toISOString(),
-        pageSize: 1000,
+        pageSize: 100,
       }),
     ])
 
