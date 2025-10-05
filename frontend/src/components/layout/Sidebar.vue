@@ -1,57 +1,115 @@
 <template>
   <aside
-    class="fixed top-0 left-0 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 transition-all duration-300 z-40"
-    :class="sidebarStore.collapsed ? 'w-16' : 'w-64'"
+    class="fixed top-0 left-0 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-600 transition-all duration-200 z-40"
+    :class="sidebarStore.collapsed ? 'w-[60px]' : 'w-64'"
   >
-    <!-- Logo Area -->
-    <div class="h-16 flex items-center justify-center border-b border-gray-200 dark:border-gray-700">
-      <h1
-        v-if="!sidebarStore.collapsed"
-        class="text-xl font-bold text-gray-800 dark:text-white"
-      >
-        NuclearWeb
+    <!-- Logo/Header Area -->
+    <div
+      class="h-16 flex items-center justify-center px-4 bg-primary-600"
+      :class="sidebarStore.collapsed ? 'justify-center px-2' : ''"
+    >
+      <h1 v-if="!sidebarStore.collapsed" class="text-white text-lg font-semibold">
+        AI服務平台
       </h1>
-      <span
-        v-else
-        class="text-xl font-bold text-gray-800 dark:text-white"
-      >
-        N
-      </span>
+      <svg v-else class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+      </svg>
     </div>
 
     <!-- Navigation Menu -->
-    <nav class="mt-4 px-2">
-      <template v-for="item in menuItems" :key="item.name">
+    <nav class="mt-8">
+      <div class="px-4 space-y-2">
+        <!-- Top Level Items (no section header) -->
         <router-link
-          v-if="!item.adminOnly || authStore.isAdmin"
-          :to="item.path"
-          class="flex items-center px-4 py-3 mb-1 rounded-lg transition-colors"
-          :class="[
-            isActive(item.path)
-              ? 'bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-400'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-          ]"
-          :title="sidebarStore.collapsed ? item.label : ''"
+          to="/reservations"
+          class="nav-item"
+          :class="{ 'nav-item-active': isActive('/reservations') }"
         >
-          <component :is="item.icon" class="w-5 h-5 flex-shrink-0" />
-          <span
-            v-if="!sidebarStore.collapsed"
-            class="ml-3 text-sm font-medium"
-          >
-            {{ item.label }}
-          </span>
+          <CalendarIcon class="w-5 h-5 flex-shrink-0" />
+          <span v-if="!sidebarStore.collapsed">會議室預約</span>
         </router-link>
-      </template>
+
+        <router-link
+          to="/articles"
+          class="nav-item"
+          :class="{ 'nav-item-active': isActive('/articles') }"
+        >
+          <DocumentTextIcon class="w-5 h-5 flex-shrink-0" />
+          <span v-if="!sidebarStore.collapsed">文章列表</span>
+        </router-link>
+
+        <!-- CMS Section -->
+        <div v-if="!sidebarStore.collapsed" class="pt-4">
+          <h3 class="px-3 text-xs font-semibold theme-text-muted uppercase tracking-wider">內容管理</h3>
+          <div class="mt-2 space-y-1">
+            <router-link
+              v-if="authStore.isAdmin"
+              to="/cms/articles"
+              class="nav-item"
+              :class="{ 'nav-item-active': isActive('/cms/articles') }"
+            >
+              <DocumentTextIcon class="w-5 h-5 flex-shrink-0" />
+              <span>CMS 文章</span>
+            </router-link>
+
+            <router-link
+              v-if="authStore.isAdmin"
+              to="/cms/menus"
+              class="nav-item"
+              :class="{ 'nav-item-active': isActive('/cms/menus') }"
+            >
+              <HomeIcon class="w-5 h-5 flex-shrink-0" />
+              <span>選單管理</span>
+            </router-link>
+
+            <router-link
+              v-if="authStore.isAdmin"
+              to="/cms/files"
+              class="nav-item"
+              :class="{ 'nav-item-active': isActive('/cms/files') }"
+            >
+              <FolderIcon class="w-5 h-5 flex-shrink-0" />
+              <span>檔案管理</span>
+            </router-link>
+          </div>
+        </div>
+
+        <!-- System Management Section -->
+        <div v-if="!sidebarStore.collapsed" class="pt-4">
+          <h3 class="px-3 text-xs font-semibold theme-text-muted uppercase tracking-wider">系統管理</h3>
+          <div class="mt-2 space-y-1">
+            <router-link
+              v-if="authStore.isAdmin"
+              to="/admin/users"
+              class="nav-item"
+              :class="{ 'nav-item-active': isActive('/admin/users') }"
+            >
+              <UsersIcon class="w-5 h-5 flex-shrink-0" />
+              <span>使用者管理</span>
+            </router-link>
+
+            <router-link
+              v-if="authStore.isAdmin"
+              to="/admin/rooms"
+              class="nav-item"
+              :class="{ 'nav-item-active': isActive('/admin/rooms') }"
+            >
+              <Cog6ToothIcon class="w-5 h-5 flex-shrink-0" />
+              <span>會議室管理</span>
+            </router-link>
+          </div>
+        </div>
+      </div>
     </nav>
 
     <!-- Collapse Toggle Button -->
     <button
       @click="sidebarStore.toggleCollapsed()"
-      class="absolute bottom-4 left-1/2 -translate-x-1/2 p-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
+      class="absolute bottom-4 left-1/2 -translate-x-1/2 p-1.5 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
       :title="sidebarStore.collapsed ? '展開側邊欄' : '收合側邊欄'"
     >
       <svg
-        class="w-5 h-5 text-gray-600 dark:text-gray-300 transition-transform"
+        class="w-4 h-4 text-gray-500 dark:text-gray-400 transition-transform"
         :class="sidebarStore.collapsed ? 'rotate-180' : ''"
         fill="none"
         stroke="currentColor"
@@ -69,7 +127,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSidebarStore } from '@/stores/sidebarStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -85,64 +142,6 @@ import {
 const route = useRoute()
 const sidebarStore = useSidebarStore()
 const authStore = useAuthStore()
-
-interface MenuItem {
-  name: string
-  label: string
-  path: string
-  icon: any
-  adminOnly?: boolean
-}
-
-const menuItems = computed<MenuItem[]>(() => [
-  {
-    name: 'reservations',
-    label: '會議室預約',
-    path: '/reservations',
-    icon: CalendarIcon,
-  },
-  {
-    name: 'articles',
-    label: '文章列表',
-    path: '/articles',
-    icon: DocumentTextIcon,
-  },
-  {
-    name: 'cms-articles',
-    label: 'CMS 文章',
-    path: '/cms/articles',
-    icon: DocumentTextIcon,
-    adminOnly: true,
-  },
-  {
-    name: 'cms-menus',
-    label: '選單管理',
-    path: '/cms/menus',
-    icon: HomeIcon,
-    adminOnly: true,
-  },
-  {
-    name: 'cms-files',
-    label: '檔案管理',
-    path: '/cms/files',
-    icon: FolderIcon,
-    adminOnly: true,
-  },
-  {
-    name: 'admin-users',
-    label: '使用者管理',
-    path: '/admin/users',
-    icon: UsersIcon,
-    adminOnly: true,
-  },
-  {
-    name: 'admin-rooms',
-    label: '會議室管理',
-    path: '/admin/rooms',
-    icon: Cog6ToothIcon,
-    adminOnly: true,
-  },
-])
 
 const isActive = (path: string) => {
   return route.path.startsWith(path)
