@@ -16,6 +16,7 @@ services:
       - "3306:3306"
     volumes:
       - mysql_dev_data:/var/lib/mysql
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - nuclearweb-dev
     healthcheck:
@@ -34,7 +35,7 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ASPNETCORE_URLS: http://+:5000
       ConnectionStrings__DefaultConnection: "Server=mysql;Database=nuclearweb;User=nuclearweb_user;Password=password;"
-      JWT__Secret: dev_jwt_secret_key_2024
+      JWT__Secret: dev_jwt_secret_key_2024_minimum_32_characters_required
       JWT__Issuer: NuclearWeb
       JWT__Audience: NuclearWebUsers
       JWT__ExpiryMinutes: 60
@@ -61,7 +62,7 @@ services:
     working_dir: /app
     command: sh -c "npm install && npx vite --host 0.0.0.0 --force --clearScreen false"
     environment:
-      VITE_API_BASE_URL: http://localhost:5000
+      VITE_API_BASE_URL: http://localhost:5000/api/v1
       TZ: Asia/Taipei
     ports:
       - "5173:5173"
